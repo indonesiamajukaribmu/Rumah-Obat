@@ -1,0 +1,2156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lemari Obat Rumah — penyakit, obat, telepon, sampah & pos surat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=IBM+Plex+Mono:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --wall:#ece1ca; --ink:#22301f; --muted:#6d6753;
+    --cabinet:#284b3b; --cabinet-dark:#1d3a2d; --door:#2f5a46; --door-back:#1c382b;
+    --interior:#f4ecd9; --brass:#c9a15a; --paper:#faf4e6; --red:#b23a2e; --green:#237a45;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Instrument Sans',sans-serif; background:var(--wall); color:var(--ink);
+    font-size:14.5px; line-height:1.6; min-height:100vh; overflow-x:hidden;
+  }
+  body::before{
+    content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Ccircle cx='2' cy='2' r='.7' fill='%23203020' fill-opacity='.05'/%3E%3C/svg%3E");
+  }
+  body.lock{overflow:hidden}
+  .stage{position:relative; z-index:1; max-width:1180px; margin:0 auto; padding:36px 22px 70px}
+
+  /* ---------- Header ---------- */
+  .top{display:flex; justify-content:space-between; align-items:flex-end; gap:22px; flex-wrap:wrap}
+  .overline{font:600 10.5px 'IBM Plex Mono'; letter-spacing:.22em; color:#8a6a2f; text-transform:uppercase; margin-bottom:10px}
+  h1{font-family:'Fraunces',serif; font-weight:800; font-size:clamp(34px,4.6vw,54px); line-height:1.02; letter-spacing:-.01em}
+  h1 em{font-style:italic; font-weight:700; color:var(--door)}
+  .lede{margin-top:12px; max-width:620px; color:#5d5a48; font-size:15px}
+  .lede b{color:var(--ink)}
+  .tools{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+  .clock{text-align:right; margin-right:4px}
+  .clock b{display:block; font:600 15px 'IBM Plex Mono'; color:var(--ink)}
+  .clock small{font:500 11px 'IBM Plex Mono'; color:#8a8367}
+  .btn{display:inline-flex; align-items:center; gap:8px; font:600 13.5px 'Instrument Sans'; padding:10px 16px;
+       border-radius:999px; border:1px solid transparent; cursor:pointer; transition:.2s; text-decoration:none}
+  .btn svg{width:16px;height:16px}
+  .btn-dark{background:var(--cabinet); color:#f2ead6}
+  .btn-dark:hover{background:#234a39; transform:translateY(-1px)}
+  .btn-red{background:var(--red); color:#fdf3e7}
+  .btn-red:hover{background:#9c3126; transform:translateY(-1px)}
+  button:focus-visible, .door:focus-visible, .bottle:focus-visible, .phone-pole:focus-visible,
+  .key:focus-visible, .wbin:focus-visible, .postbox:focus-visible{outline:2px solid var(--brass); outline-offset:3px}
+
+  /* ---------- Rumah & lemari ---------- */
+  .house{margin-top:30px}
+  .roof{position:relative; height:52px; margin:0 10px; background:#20402f; clip-path:polygon(50% 0,100% 100%,0 100%)}
+  .plaque{position:absolute; bottom:2px; left:50%; transform:translateX(-50%); background:var(--brass); color:#2a1c06;
+          font:600 10px 'IBM Plex Mono'; letter-spacing:.18em; padding:5px 16px; border-radius:3px 3px 0 0;
+          box-shadow:inset 0 1px 0 rgba(255,255,255,.4); white-space:nowrap}
+  .cabinet-wrap{display:flex; gap:16px; align-items:stretch}
+  .cabinet{
+    flex:1; background:var(--cabinet-dark); padding:12px; border-radius:12px 12px 6px 6px;
+    display:grid; gap:11px; box-shadow:0 34px 60px -32px rgba(31,43,33,.6), inset 0 0 0 2px rgba(255,255,255,.04);
+    grid-template-columns:repeat(4,1fr);
+    grid-template-rows:195px 195px 170px 150px 92px 92px;
+    grid-template-areas:
+      "darurat darurat khusus khusus"
+      "kamar1  kamar2  khusus khusus"
+      "tamu    tamu    khusus khusus"
+      "dapur   umum    umum   umum"
+      "atas    atas    atas   atas"
+      "tengah  tengah  tengah tengah";
+  }
+  .cell--khusus{grid-area:khusus}.cell--darurat{grid-area:darurat}.cell--kamar1{grid-area:kamar1}
+  .cell--kamar2{grid-area:kamar2}.cell--tamu{grid-area:tamu}.cell--umum{grid-area:umum}
+  .cell--dapur{grid-area:dapur}.cell--atas{grid-area:atas}.cell--tengah{grid-area:tengah}
+  .plinth{height:13px; margin:0 2px; background:#16291e; border-radius:0 0 10px 10px; box-shadow:0 16px 24px -12px rgba(31,43,33,.55)}
+
+  .side-strip{display:flex; flex-direction:column; gap:16px; width:122px; flex:none}
+
+  /* ---------- Sel lemari ---------- */
+  .cell{position:relative; z-index:1; perspective:1100px; background:var(--interior);
+        border-radius:6px; box-shadow:inset 0 0 0 1px #cbbc97}
+  .cell.open{z-index:6}
+  .glow{position:absolute; inset:0; border-radius:6px; pointer-events:none; transition:.5s; background:rgba(255,197,102,0)}
+  .cell.open .glow{background:rgba(255,197,102,.14); box-shadow:inset 0 0 26px rgba(255,197,102,.45)}
+  .shelves{position:absolute; inset:8px; display:flex; flex-direction:column; justify-content:flex-end;
+           transition:filter .5s; overflow:hidden}
+  .cell:not(.open) .shelves{pointer-events:none}
+  .shelf{flex:1; position:relative; display:flex; align-items:flex-end; justify-content:center; gap:10px;
+         padding-bottom:10px; border-bottom:6px solid #b3854f}
+  .sh-plate{position:absolute; right:8px; bottom:10px; font:600 9px 'IBM Plex Mono'; letter-spacing:.08em;
+            color:#8b7c5c; background:rgba(255,255,255,.55); padding:1px 5px; border-radius:3px}
+  .shelf > *{opacity:0; transform:translateY(10px); transition:opacity .45s ease var(--d,0s), transform .45s ease var(--d,0s)}
+  .cell.open .shelf > *{opacity:1; transform:none}
+
+  .cell--atas .shelf, .cell--tengah .shelf{
+    flex-wrap:wrap; justify-content:center; align-content:flex-end; gap:2px 20px; padding-bottom:8px;
+  }
+  .bcode{font:600 8px 'IBM Plex Mono'; letter-spacing:.04em; color:#8b7c5c; background:rgba(255,255,255,.62);
+         padding:1px 4px; border-radius:3px; margin-top:3px; white-space:nowrap}
+  .cell--atas .bottle .cap, .cell--tengah .bottle .cap{width:10px; height:6px}
+  .cell--atas .bottle .bod, .cell--tengah .bottle .bod{width:19px; height:27px}
+  .cell--atas .bottle.b-vial .bod, .cell--tengah .bottle.b-vial .bod{width:12px; height:30px}
+  .cell--atas .bottle.b-box .bod, .cell--tengah .bottle.b-box .bod{width:26px; height:20px}
+  .cell--atas .bottle.b-box .bod::after, .cell--tengah .bottle.b-box .bod::after{top:5px; height:6px; left:3px; right:3px}
+
+  .bottle{position:relative; border:0; background:none; cursor:pointer; display:flex; flex-direction:column;
+          align-items:center; transition:transform .25s}
+  .bottle:hover{transform:translateY(-5px)}
+  .bottle .cap{width:12px; height:7px; background:var(--brass); border-radius:2px 2px 0 0}
+  .bottle .bod{width:22px; height:34px; background:var(--door); border-radius:3px 3px 5px 5px; position:relative;
+               box-shadow:inset -5px 0 0 rgba(0,0,0,.14)}
+  .bottle .bod::after{content:''; position:absolute; left:3px; right:3px; top:10px; height:14px; background:var(--interior); border-radius:1px}
+  .b-vial .cap{width:16px; height:6px; background:var(--red)}
+  .b-vial .bod{width:13px; height:36px; background:#9a5b2c; border-radius:2px}
+  .b-box .cap{display:none}
+  .b-box .bod{width:30px; height:24px; background:#f7f1e0; border:1px solid #d8c9a4; border-radius:2px}
+  .b-box .bod::after{left:4px; right:4px; top:6px; height:7px; background:var(--door)}
+  .b-inhaler .cap{width:10px; height:8px}
+  .b-inhaler .bod{width:17px; height:30px; background:#5c7186; border-radius:9px 9px 4px 4px}
+
+  .door{position:absolute; inset:0; border:0; padding:0; cursor:pointer; transform-origin:left center;
+        transform-style:preserve-3d; z-index:5; border-radius:6px; background:none;
+        transition:transform .65s cubic-bezier(.32,.72,.24,1)}
+  .cell:not(.open) .door:hover{transform:rotateY(-13deg)}
+  .cell.open .door{transform:rotateY(-104deg)}
+  .cell.peek:not(.open) .door{transform:rotateY(-15deg)}
+  .door-front,.door-back{position:absolute; inset:0; border-radius:6px; backface-visibility:hidden}
+  .door-front{background:var(--door); overflow:hidden; box-shadow:inset 0 0 0 1px #234b39, inset 0 0 24px rgba(0,0,0,.18);
+              display:flex; flex-direction:column; align-items:center; padding:12px 10px}
+  .door-front::before{content:''; position:absolute; inset:8px; border:1px solid rgba(16,40,30,.55); border-radius:4px; pointer-events:none}
+  .door-back{background:var(--door-back); transform:rotateY(180deg); box-shadow:inset 0 0 0 1px #142a20;
+             display:flex; align-items:center; justify-content:center}
+  .bp{font:600 11px 'IBM Plex Mono'; color:rgba(244,236,217,.5); letter-spacing:.12em}
+  .plate{position:relative; z-index:2; background:var(--paper); color:var(--ink); border-radius:4px; padding:6px 9px;
+         text-align:center; box-shadow:0 1px 0 rgba(0,0,0,.25), inset 0 0 0 1px #d9caa6; min-width:80%;
+         display:flex; flex-direction:column; gap:2px; align-items:center}
+  .plate .pc{font:600 8.5px 'IBM Plex Mono'; letter-spacing:.14em; color:#8a6a2f}
+  .plate .pn{font-family:'Fraunces',serif; font-weight:600; font-size:13.5px; line-height:1.15}
+  .plate .ps{font-size:10px; color:#7c7661; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:96%}
+  .door-ico{width:34px; height:34px; border-radius:50%; border:1.5px solid rgba(244,236,217,.5); color:#e9dfc6;
+            display:grid; place-items:center; margin-top:16px}
+  .door-ico svg{width:16px; height:16px}
+  .knob{position:absolute; right:9px; top:52%; width:11px; height:11px; border-radius:50%; background:var(--brass);
+        box-shadow:inset -2px -2px 2px rgba(0,0,0,.35), 0 1px 2px rgba(0,0,0,.4)}
+  .alarm{position:absolute; top:10px; right:10px; width:10px; height:10px; border-radius:50%; background:var(--red);
+         box-shadow:0 0 0 3px rgba(178,58,46,.25); animation:blink 2.2s infinite}
+  @keyframes blink{0%,70%{opacity:1}85%{opacity:.25}100%{opacity:1}}
+  .ribbon{position:absolute; top:16px; left:-32px; transform:rotate(-45deg); background:var(--red); color:#fdf3e7;
+          font:700 9px 'IBM Plex Mono'; letter-spacing:.2em; text-transform:uppercase; padding:3px 36px}
+
+  /* Badge tempat sampah di pintu ruangan */
+  .dbin{position:absolute; left:10px; bottom:10px; z-index:3; display:inline-flex; align-items:center; gap:5px;
+        font:700 9.5px 'IBM Plex Mono'; color:#5d4a1e; background:#f6f0dd; border:1px solid #c9b98e;
+        padding:3px 9px; border-radius:999px; box-shadow:0 1px 2px rgba(0,0,0,.2)}
+  .dbin svg{width:11px; height:11px}
+  .door--drawer .dbin{left:16px; bottom:14px}
+
+  .door--drawer .door-front{flex-direction:row; align-items:center; gap:12px; padding:0 84px 0 16px; justify-content:flex-start}
+  .door--drawer .plate{margin:0; min-width:0; text-align:left; flex-direction:row; align-items:baseline; gap:10px;
+                       padding:7px 12px; flex:1; background:none; box-shadow:none; color:#f2ead6}
+  .door--drawer .plate .pn{color:#f2ead6; white-space:nowrap}
+  .door--drawer .plate .pc{color:var(--brass); white-space:nowrap}
+  .door--drawer .plate .ps{color:rgba(242,234,214,.65); flex:1; min-width:0}
+  .door--drawer .door-ico{margin:0; width:30px; height:30px; flex:none}
+  .door--drawer .knob{position:absolute; right:16px; top:50%; transform:translateY(-50%); width:46px; height:7px; border-radius:6px}
+
+  .cell--front{flex:1; width:122px; min-height:220px}
+  .cell--front .door{inset:40px 0 0 0}
+  .fd-lamp{position:absolute; top:8px; left:50%; transform:translateX(-50%); width:16px; height:22px;
+           border:2px solid var(--brass); border-radius:4px; background:#f7c86a; box-shadow:0 0 12px rgba(247,200,106,.85)}
+  .door--front .door-front::after{content:''; position:absolute; inset:10px; border:1px solid rgba(16,40,30,.5); border-radius:3px;
+           background:repeating-linear-gradient(90deg, rgba(16,40,30,.35) 0 2px, transparent 2px 12px); pointer-events:none}
+  .door--front .plate{margin-top:12px}
+
+  /* ---------- Pos sampah (teras) ---------- */
+  .wrow{position:absolute; inset:8px; display:grid; grid-template-columns:1fr 1fr; gap:6px 8px;
+        align-content:end; padding:4px 8px 10px}
+  .whead{grid-column:1 / -1; font:700 7px 'IBM Plex Mono'; letter-spacing:.18em; color:#8a6a2f; text-align:center}
+  .wbin{display:flex; flex-direction:column; align-items:center; background:none; border:0; cursor:pointer;
+        padding:0; transition:transform .2s; font-family:inherit}
+  .wbin:hover{transform:translateY(-3px)}
+  .wbin .sign{position:relative; width:100%; background:#fff; border-radius:3px; overflow:hidden;
+              box-shadow:0 1px 3px rgba(0,0,0,.22); border:1px solid rgba(0,0,0,.08)}
+  .wbin .band{width:100%; height:13px; display:grid; place-items:center}
+  .wbin .band svg{width:9px; height:9px}
+  .wbin .nm{display:block; font:700 6.2px 'IBM Plex Mono'; letter-spacing:.02em; color:#22301f;
+            padding:2px 1px 3px; text-align:center; line-height:1.25; text-transform:uppercase}
+  .wcnt{position:absolute; top:1px; right:2px; font:700 6.5px 'IBM Plex Mono'; background:#22301f; color:#f6ecd9;
+        border-radius:999px; padding:0 4px; line-height:1.5}
+  .wbin .lid{width:26px; height:5px; border-radius:2.5px; margin-top:3px}
+  .wbin .can{width:20px; height:12px; border-radius:0 0 4px 4px; box-shadow:inset -5px 0 0 rgba(0,0,0,.15)}
+  .wbin--last{grid-column:1 / -1; justify-self:center; width:52%}
+
+  /* ---------- Pilar telepon ---------- */
+  .phone-pole{
+    appearance:none; position:relative; flex:none; width:94px; height:238px; align-self:center;
+    background:#8f2f26; border:0; cursor:pointer; overflow:visible; font-family:inherit;
+    border-radius:12px 12px 8px 8px; text-align:center;
+    display:flex; flex-direction:column; align-items:center; padding:0 0 10px;
+    box-shadow:inset -12px 0 0 rgba(0,0,0,.16), inset 7px 0 0 rgba(255,255,255,.05),
+               0 26px 40px -24px rgba(31,43,33,.6);
+    transition:filter .3s;
+  }
+  .phone-pole::after{content:''; position:absolute; left:2%; right:2%; bottom:-10px; height:13px; border-radius:50%;
+    background:radial-gradient(ellipse at center, rgba(31,43,33,.38), transparent 70%)}
+  .phone-pole.offhook{filter:brightness(1.07)}
+  .pp-lamp{position:absolute; top:10px; left:50%; transform:translateX(-50%); width:9px; height:9px; border-radius:50%;
+           background:#3a1512; box-shadow:inset 0 1px 2px rgba(0,0,0,.5); transition:.3s}
+  .phone-pole.offhook .pp-lamp{background:#ffd57a; box-shadow:0 0 10px rgba(255,213,122,.95), 0 0 22px rgba(255,180,80,.5)}
+  .pp-cap{width:36px; height:10px; margin-top:26px; background:#7a2a21; border-radius:5px 5px 2px 2px}
+  .pp-bracket{position:absolute; top:54px; right:5px; width:12px; height:30px; background:#6e241d; border-radius:4px; z-index:2}
+  .pp-hook{position:absolute; top:44px; right:-9px; width:34px; height:76px; z-index:3;
+           transform-origin:top center; transition:transform .45s cubic-bezier(.34,1.4,.4,1)}
+  .phone-pole:not(.offhook):hover .pp-hook{transform:translateY(-4px) rotate(-9deg)}
+  .phone-pole.offhook .pp-hook{transform:translate(-9px,-15px) rotate(-27deg)}
+  .pp-handset{position:relative; display:block; width:28px; height:68px; background:#232a24; border-radius:14px;
+              box-shadow:inset -3px 0 0 rgba(255,255,255,.07), 2px 4px 8px rgba(0,0,0,.3)}
+  .pp-handset::before,.pp-handset::after{content:''; position:absolute; left:50%; transform:translateX(-50%);
+              width:25px; height:25px; background:#161b16; border-radius:50%; border:2px solid #46523f}
+  .pp-handset::before{top:-5px}
+  .pp-handset::after{bottom:-5px}
+  .pp-plate{flex:1; width:56px; margin-top:10px; background:#a5392d; border-radius:8px;
+            box-shadow:inset 0 0 0 2px rgba(0,0,0,.14), inset 0 2px 8px rgba(0,0,0,.22);
+            display:flex; align-items:center; justify-content:center; padding:10px 0}
+  .pp-label{writing-mode:vertical-rl; text-orientation:mixed; font:700 10px 'IBM Plex Mono';
+            letter-spacing:.24em; color:#f6ecd9; white-space:nowrap}
+  .pp-digits{margin-top:9px; font:600 8.5px 'IBM Plex Mono'; letter-spacing:.06em; line-height:1.7;
+             color:rgba(246,236,217,.85); text-align:center}
+  .pp-free{margin-top:7px; font:700 8px 'IBM Plex Mono'; letter-spacing:.16em; background:var(--brass);
+           color:#2a1c06; padding:2px 7px; border-radius:3px}
+  .pp-cord{position:absolute; top:92px; right:12px; width:22px; height:64px; pointer-events:none; opacity:.9}
+  .phone-pole.offhook .pp-cord path{stroke:rgba(20,10,8,.55)}
+
+  /* ---------- Pos surat ---------- */
+  .postbox{
+    position:relative; flex:none; width:100%; max-width:118px; height:216px; align-self:center;
+    background:none; border:0; cursor:pointer; font-family:inherit; padding:0;
+    display:flex; flex-direction:column; align-items:center; transition:transform .25s;
+  }
+  .postbox:hover{transform:translateY(-3px)}
+  .pb-top{width:100%; height:42px; background:#c8352a; border-radius:60px 60px 6px 6px;
+          display:flex; align-items:center; justify-content:center; gap:8px;
+          box-shadow:inset 0 -8px 10px rgba(0,0,0,.2), inset 0 3px 4px rgba(255,255,255,.14)}
+  .pb-slot{width:30px; height:9px; background:#2a0f0c; border-radius:2px;
+           box-shadow:inset 0 2px 3px rgba(0,0,0,.8), 0 1px 0 rgba(255,255,255,.15)}
+  .pb-body{position:relative; width:100%; flex:1; background:#d43a2e; border-radius:6px; overflow:hidden;
+           display:flex; flex-direction:column; align-items:center; padding:9px 6px 7px;
+           box-shadow:inset -10px 0 0 rgba(0,0,0,.14), inset 6px 0 0 rgba(255,255,255,.07)}
+  .pb-brand{font:700 6.5px 'IBM Plex Mono'; letter-spacing:.32em; color:#ffd9d2}
+  .pb-pos{font:800 21px 'Fraunces'; color:#fff; letter-spacing:.14em; margin-top:1px; text-shadow:0 1px 0 rgba(0,0,0,.3)}
+  .pb-sub{font:600 6.2px 'IBM Plex Mono'; letter-spacing:.12em; color:#ffe3de; text-transform:uppercase;
+          text-align:center; line-height:1.5; margin-top:2px}
+  .pb-count{margin-top:7px; font:700 9px 'IBM Plex Mono'; background:#fff; color:#b22f24;
+            border-radius:999px; padding:2px 9px; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+  .pb-env{position:absolute; top:0; left:50%; width:32px; height:21px; margin-left:-16px;
+          background:#f6f0dd; border:1px solid #b9a877; border-radius:2px; opacity:0;
+          transform:translateY(-8px) rotate(-7deg); z-index:2}
+  .pb-env::before{content:''; position:absolute; top:0; left:0;
+          border-left:15px solid transparent; border-right:15px solid transparent;
+          border-top:11px solid #d9caa6}
+  .postbox:hover .pb-env{opacity:.9; transform:translateY(1px) rotate(-4deg)}
+  .postbox.mail-in .pb-env{animation:mailIn 1.5s ease forwards}
+  @keyframes mailIn{
+    0%{opacity:0; transform:translateY(-10px) rotate(-9deg)}
+    14%{opacity:1; transform:translateY(2px) rotate(-3deg)}
+    72%{opacity:1; transform:translateY(52px) rotate(3deg)}
+    100%{opacity:0; transform:translateY(84px) rotate(6deg)}
+  }
+  .pb-leg{width:26px; height:42px; background:#c8352a; box-shadow:inset -6px 0 0 rgba(0,0,0,.16)}
+  .pb-base{width:88%; height:12px; background:#a52a20; border-radius:3px;
+           box-shadow:0 12px 16px -8px rgba(31,43,33,.55)}
+
+  /* ---------- Panel kartu ---------- */
+  .rcwrap,.ixwrap{position:fixed; inset:0; z-index:60; display:flex; justify-content:flex-end; padding:22px;
+                  opacity:0; visibility:hidden; transition:.28s}
+  .rcwrap::before,.ixwrap::before{content:''; position:absolute; inset:0; background:rgba(26,21,13,.28); opacity:0; transition:.28s}
+  .rcwrap.on,.ixwrap.on{opacity:1; visibility:visible}
+  .rcwrap.on::before,.ixwrap.on::before{opacity:1}
+  .rcwrap .rc{position:relative; z-index:1; transform:translateX(30px); transition:transform .38s cubic-bezier(.2,.8,.25,1);
+              width:min(470px,94vw); max-height:calc(100vh - 44px); overflow:auto}
+  .rcwrap.on .rc{transform:none}
+  .sheet{background:var(--paper); border:1px solid #dccfae; border-radius:16px;
+         box-shadow:0 40px 80px -30px rgba(20,15,8,.6)}
+  .rc-head{display:flex; gap:14px; align-items:center; padding:18px 20px; border-bottom:1px dashed #d8caa6}
+  .rc-code{font:700 22px 'Fraunces'; color:#f2ead6; background:var(--cabinet); border-radius:12px; width:52px; height:52px;
+           display:grid; place-items:center; flex:none}
+  .rc-code svg{width:24px; height:24px}
+  .rc-head h3{font:700 20px 'Fraunces'}
+  .rc-head p{font-size:12.5px; color:#7c7661; margin-top:3px}
+  .xbtn{width:34px; height:34px; border-radius:50%; border:1px solid #d3c6a2; background:#fffdf6; color:var(--muted);
+        display:grid; place-items:center; cursor:pointer; flex:none; margin-left:auto}
+  .xbtn:hover{color:var(--ink); border-color:#b3a67e}
+  .xbtn svg{width:16px; height:16px}
+  .rc-rows{padding:4px 14px}
+  .rc-row{display:flex; align-items:center; gap:12px; width:100%; text-align:left; background:none; border:0;
+          border-top:1px dashed #e2d6b4; padding:14px 6px; cursor:pointer; transition:background .2s; border-radius:10px;
+          font-family:'Instrument Sans'}
+  .rc-row:first-child{border-top:0}
+  .rc-row:hover{background:#f3ecd9}
+  .rc-row.hl{background:#fff6dd; box-shadow:inset 0 0 0 1.5px var(--brass); animation:hlPulse 1.8s ease}
+  @keyframes hlPulse{0%{background:#ffe9b0}100%{background:#fff6dd}}
+  .rc-ico{width:40px; height:40px; border-radius:12px; background:#ecf1e6; border:1px solid #b9c9b6; color:var(--door);
+          display:grid; place-items:center; flex:none}
+  .rc-ico svg{width:18px; height:18px}
+  .rc-name{flex:1; min-width:0}
+  .rc-name b{font-weight:600; font-size:15px}
+  .rc-name small{display:block; color:#8a8367; font-size:12px; margin-top:2px}
+  .rc-rak{font:600 10px 'IBM Plex Mono'; color:#8a6a2f; border:1px solid #d3bf8e; padding:2px 7px; border-radius:6px; white-space:nowrap}
+  .rc-dot{width:12px; height:12px; border-radius:50%; flex:none; border:1px solid rgba(0,0,0,.14)}
+  .rc-chv{color:#b3a67e; font:700 16px; flex:none}
+  .rc-foot{padding:14px 20px 18px; font-size:12.5px; color:#8a8367; line-height:1.55; border-top:1px dashed #d8caa6}
+
+  /* Strip tempat sampah ruangan */
+  .waste-strip{display:flex; align-items:center; gap:12px; margin:12px 14px 4px; padding:12px 13px;
+               background:#f3ecd9; border:1px dashed #c9b98e; border-radius:12px}
+  .ws-ico{width:38px; height:38px; border-radius:11px; background:#fff; border:1px solid #d3bf8e; color:#7c5e22;
+          display:grid; place-items:center; flex:none}
+  .ws-ico svg{width:17px; height:17px}
+  .ws-info{flex:1; min-width:0}
+  .ws-info b{font-weight:600; font-size:13.5px}
+  .ws-info small{display:block; color:#8a8367; font-size:11.5px; margin-top:1px}
+  .ws-btn{font:700 12px 'Instrument Sans'; color:#fdf3e7; background:var(--cabinet); border:0; border-radius:999px;
+          padding:9px 14px; cursor:pointer; white-space:nowrap; transition:.15s}
+  .ws-btn:hover{background:#234a39}
+  .ws-btn:disabled{background:#d8cfae; color:#8a8367; cursor:not-allowed}
+
+  .wsummary{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin:12px 14px 2px; padding:12px 13px;
+            background:#eef5ea; border:1px solid #9fc7a8; border-radius:12px}
+  .wsummary b{font:600 13px 'Instrument Sans'}
+  .ws-chip{font:600 10.5px 'IBM Plex Mono'; color:#1e7a34; background:#fff; border:1px solid #9fc7a8;
+           padding:3px 9px; border-radius:999px}
+  .ws-chip svg{width:11px; height:11px; vertical-align:-1px}
+  .ws-all{font:700 12px 'Instrument Sans'; color:#fdf3e7; background:var(--green); border:0; border-radius:999px;
+          padding:9px 14px; cursor:pointer; margin-left:auto}
+  .ws-all:hover{filter:brightness(1.07)}
+  .ws-all svg{width:13px; height:13px; vertical-align:-2px}
+
+  .wact{display:flex; gap:9px; flex-wrap:wrap; align-items:center; margin-top:16px}
+  .wact .chipbtn{font-weight:700}
+  .wact .chipbtn svg{width:13px; height:13px; vertical-align:-2px}
+  .wact .chipbtn.go{background:var(--green); border-color:var(--green); color:#fff}
+  .wact .chipbtn.go:hover{background:#1d6339}
+  .woff{font:500 11.5px 'Instrument Sans'; color:#7c2c20; background:#f7e2dc; border:1px dashed #e3b3a7;
+        border-radius:999px; padding:7px 12px}
+  .wres{margin-top:12px; font:500 12.5px 'Instrument Sans'; color:#1e6339; background:#eef5ea;
+        border:1px solid #9fc7a8; border-radius:10px; padding:10px 13px; display:none}
+  .wres.on{display:block}
+
+  /* ---------- Pos surat: formulir ---------- */
+  .pos-code{background:var(--red)}
+  .tel-note{margin:16px 18px 0}
+  .pos-form{padding:14px 18px 4px}
+  .frow{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px}
+  .frow--1{grid-template-columns:1fr}
+  .f-lbl{display:block; font:600 10px 'IBM Plex Mono'; letter-spacing:.12em; color:#8a8367; margin-bottom:5px; text-transform:uppercase}
+  .f-in{width:100%; padding:10px 12px; border-radius:10px; border:1px solid #d3c6a2; background:#fff;
+        font:500 13.5px 'Instrument Sans'; color:var(--ink)}
+  .f-in:focus{outline:none; border-color:var(--cabinet); box-shadow:0 0 0 3px rgba(40,75,59,.12)}
+  textarea.f-in{min-height:66px; resize:vertical}
+  .medrow{display:grid; grid-template-columns:108px 1fr 1fr 30px; gap:6px; margin-bottom:6px}
+  .medrow .f-in{padding:8px 10px; font-size:12.5px}
+  .mrowdel{width:30px; height:37px; border-radius:9px; border:1px solid #e3b3a7; background:#fdf3ef; color:var(--red);
+           cursor:pointer; display:grid; place-items:center}
+  .mrowdel svg{width:13px; height:13px}
+  .addmed{font:600 12px 'Instrument Sans'; color:var(--door); background:#ecf1e6; border:1px dashed #b9c9b6;
+          border-radius:999px; padding:7px 13px; cursor:pointer}
+  .addmed:hover{background:#e2eadf}
+  .pos-actions{display:flex; gap:10px; margin:14px 0 6px}
+  .pos-send{flex:1.3; display:inline-flex; align-items:center; justify-content:center; gap:9px;
+            background:linear-gradient(180deg,#d64535,var(--red)); color:#fdf3e7; font:700 14px 'Instrument Sans';
+            padding:13px 16px; border-radius:999px; border:0; cursor:pointer; transition:.2s;
+            box-shadow:0 6px 14px -6px rgba(178,58,46,.5)}
+  .pos-send:hover{transform:translateY(-1px); filter:brightness(1.05)}
+  .pos-send svg{width:16px; height:16px}
+  .pos-clear{flex:1; display:inline-flex; align-items:center; justify-content:center; background:#fffdf6;
+             border:1px solid #d3c6a2; color:var(--muted); font:600 13px 'Instrument Sans';
+             border-radius:999px; cursor:pointer}
+  .pos-clear:hover{color:var(--ink); border-color:#b3a67e}
+  .pos-note{font-size:11.5px; color:#8a8367; margin:8px 0 14px; line-height:1.55}
+  .pos-note b{color:var(--ink)}
+  .sent-head{padding:14px 20px 6px; font:600 10.5px 'IBM Plex Mono'; color:#8a6a2f; letter-spacing:.16em; text-transform:uppercase;
+             border-top:1px dashed #d8caa6}
+  .sent-rows{padding:0 14px 14px}
+  .sent-empty{padding:8px 6px 4px; font-size:12.5px; color:#8a8367}
+  .pos-ok{margin:14px 18px 4px; background:#eef5ea; border:1px solid #9fc7a8; border-radius:14px; padding:16px;
+          display:flex; gap:13px; align-items:flex-start}
+  .pos-ok svg{width:26px; height:26px; color:var(--green); flex:none; margin-top:2px}
+  .pos-ok h4{font:700 17px 'Fraunces'}
+  .pos-ok p{font-size:13px; color:#4c4a3c; margin-top:4px; line-height:1.55}
+  .btnrow{display:flex; gap:8px; margin-top:11px; flex-wrap:wrap}
+  .chipbtn{font:600 12px 'Instrument Sans'; padding:8px 14px; border-radius:999px; border:1px solid #b9c9b6;
+           background:#fff; cursor:pointer; color:var(--door); transition:.15s}
+  .chipbtn:hover{background:#ecf1e6}
+
+  /* ---------- Buku telepon ---------- */
+  .tel-code{background:var(--red)}
+  .tel-group h4{font:600 10.5px 'IBM Plex Mono'; letter-spacing:.16em; text-transform:uppercase; color:#8a6a2f;
+                padding:20px 20px 4px}
+  .tel-rows{padding:0 14px}
+  .tel-row{display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center;
+           padding:13px 6px; border-top:1px dashed #e2d6b4}
+  .tel-group .tel-row:first-child{border-top:0}
+  .tel-ico{width:40px; height:40px; border-radius:12px; background:#f7e3dc; border:1px solid #e3b3a7; color:var(--red);
+           display:grid; place-items:center; flex:none}
+  .tel-ico svg{width:18px; height:18px}
+  .tel-info{min-width:0}
+  .tel-info b{font-weight:600; font-size:14.5px}
+  .tel-info small{display:block; color:#8a8367; font-size:12px; margin-top:2px; line-height:1.45}
+  .tel-meta{display:flex; align-items:center; gap:8px; margin-top:6px; flex-wrap:wrap}
+  .tel-num{font:600 14px 'IBM Plex Mono'; color:var(--ink); background:#efe5cd; border:1px solid #ddd0ad;
+           padding:2px 9px; border-radius:6px}
+  .tel-tag{font:600 9px 'IBM Plex Mono'; letter-spacing:.1em; text-transform:uppercase; color:#7c5e22;
+           border:1px solid #c4a75e; background:#f6eed8; padding:2px 7px; border-radius:999px}
+  .tel-actions{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .tel-call{display:inline-flex; align-items:center; gap:7px; background:var(--red); color:#fdf3e7;
+            font:700 13px 'Instrument Sans'; padding:9px 14px; border-radius:999px; text-decoration:none;
+            white-space:nowrap; transition:.2s}
+  .tel-call:hover{background:#9c3126; transform:translateY(-1px)}
+  .tel-call svg{width:15px; height:15px}
+  .sqbtn{width:34px; height:34px; border-radius:10px; border:1px solid #d3c6a2; background:#fffdf6; color:#6d6753;
+         display:grid; place-items:center; transition:.2s; text-decoration:none; cursor:pointer}
+  .sqbtn:hover{border-color:#b3a67e; color:var(--ink)}
+  .sqbtn svg{width:15px; height:15px}
+  .tel-foot{margin-top:18px; padding:14px 20px 18px; font-size:12.5px; color:#8a8367; line-height:1.6;
+            border-top:1px dashed #d8caa6}
+  .tel-foot b{color:var(--ink)}
+
+  /* ---------- Papan tombol ---------- */
+  .pad-sec{margin:16px 18px 0; border:1px solid #d3c6a2; border-radius:14px; background:#fffdf6; overflow:hidden}
+  .pad-head{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 14px;
+            background:#f3ecd9; border-bottom:1px dashed #d8caa6}
+  .pad-head h4{font:600 10.5px 'IBM Plex Mono'; letter-spacing:.16em; color:#8a6a2f; text-transform:uppercase}
+  .sndbtn{display:inline-flex; gap:6px; align-items:center; font:600 10.5px 'IBM Plex Mono'; letter-spacing:.06em;
+          color:#6d6753; background:#fffdf6; border:1px solid #d3c6a2; border-radius:999px; padding:5px 10px; cursor:pointer}
+  .sndbtn:hover{color:var(--ink)}
+  .sndbtn svg{width:13px; height:13px}
+  .pad{padding:14px 14px 16px; display:flex; flex-direction:column; align-items:center}
+  .pad-disp{width:100%; max-width:300px; background:#17211a; border-radius:10px; padding:12px 14px;
+            display:flex; align-items:center; gap:10px; box-shadow:inset 0 2px 8px rgba(0,0,0,.5), inset 0 0 0 1px rgba(255,213,122,.12)}
+  .pad-txt{flex:1; font:600 20px 'IBM Plex Mono'; color:#ffd57a; letter-spacing:.08em; min-height:26px;
+           word-break:break-all; text-shadow:0 0 8px rgba(255,213,122,.35)}
+  .pad-txt.empty{color:rgba(255,213,122,.35); font-weight:500; font-size:12.5px; letter-spacing:.04em}
+  .pad-tools{display:flex; gap:6px}
+  .ptool{width:30px; height:30px; border-radius:8px; border:1px solid rgba(255,213,122,.3); background:rgba(255,213,122,.08);
+         color:#ffd57a; display:grid; place-items:center; cursor:pointer; transition:.15s}
+  .ptool:hover{background:rgba(255,213,122,.18)}
+  .ptool svg{width:14px; height:14px}
+  .pad-match{width:100%; max-width:300px; text-align:center; font:600 11px 'IBM Plex Mono'; letter-spacing:.05em;
+             color:#8a6a2f; padding:9px 4px 2px; min-height:26px}
+  .pad-match b{color:var(--red)}
+  .pad-match.hit{color:var(--green)}
+  .pad-match.hit b{color:var(--green)}
+  .keygrid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; width:100%; max-width:300px; margin-top:6px}
+  .key{position:relative; aspect-ratio:1.35; border-radius:999px; background:#fff; border:1px solid #e4dcc4;
+       box-shadow:0 2px 0 #d9cfb2, 0 4px 8px rgba(31,43,33,.08); display:flex; flex-direction:column;
+       align-items:center; justify-content:center; cursor:pointer; transition:transform .08s, box-shadow .08s}
+  .key b{font:600 20px 'IBM Plex Mono'; color:var(--ink); line-height:1}
+  .key small{font:600 8.5px 'IBM Plex Mono'; letter-spacing:.16em; color:#9a916f; margin-top:3px; min-height:11px}
+  .key:hover{transform:translateY(-2px)}
+  .key:active,.key.active{transform:translateY(1px); box-shadow:0 1px 0 #d9cfb2}
+  .pad-actions{display:flex; gap:10px; width:100%; max-width:300px; margin-top:14px}
+  .callbtn{flex:1.4; display:inline-flex; align-items:center; justify-content:center; gap:9px;
+           background:linear-gradient(180deg,#35a95e,var(--green)); color:#fff; font:700 14.5px 'Instrument Sans';
+           padding:13px 16px; border-radius:999px; border:0; cursor:pointer; transition:.2s;
+           box-shadow:0 6px 14px -6px rgba(35,122,69,.55), inset 0 1px 0 rgba(255,255,255,.25)}
+  .callbtn:hover{transform:translateY(-1px); filter:brightness(1.06)}
+  .callbtn svg{width:17px; height:17px}
+  .usetel{flex:1; display:inline-flex; align-items:center; justify-content:center; gap:7px; background:#ecf1e6;
+          color:var(--door); border:1px solid #b9c9b6; font:600 12.5px 'Instrument Sans'; padding:12px 10px;
+          border-radius:999px; cursor:pointer; transition:.2s}
+  .usetel:hover{background:#e2eadf}
+  .usetel svg{width:14px; height:14px}
+  .pad-hint{font:500 10.5px 'IBM Plex Mono'; color:#a09877; margin-top:10px; text-align:center; letter-spacing:.04em}
+
+  /* ---------- Surat SMS ---------- */
+  .sms-sec{margin:14px 18px 0; border:1px solid #d3c6a2; border-radius:14px; background:#fffdf6; overflow:hidden; scroll-margin:20px}
+  .sms-sec.flash{animation:flash 1s ease}
+  @keyframes flash{0%,100%{box-shadow:none}30%{box-shadow:0 0 0 3px rgba(201,161,90,.55)}}
+  .sms-head{padding:10px 14px; background:#f3ecd9; border-bottom:1px dashed #d8caa6}
+  .sms-head h4{font:600 10.5px 'IBM Plex Mono'; letter-spacing:.16em; color:#8a6a2f; text-transform:uppercase}
+  .sms-body{padding:14px}
+  .sms-dest{width:100%; padding:10px 12px; border-radius:10px; border:1px solid #d3c6a2; background:#fff;
+            font:600 14px 'IBM Plex Mono'; color:var(--ink)}
+  .sms-dest:focus{outline:none; border-color:var(--cabinet); box-shadow:0 0 0 3px rgba(40,75,59,.12)}
+  .dest-chips{display:flex; gap:6px; overflow-x:auto; padding:9px 2px 3px; scrollbar-width:thin}
+  .dchip{flex:none; font:600 11px 'IBM Plex Mono'; color:#8a6a2f; border:1px solid #d3bf8e; background:#f6eed8;
+         padding:4px 10px; border-radius:999px; cursor:pointer; transition:.15s}
+  .dchip:hover{background:#efe2c4; color:#5d4a1e}
+  .sms-msg{width:100%; min-height:88px; resize:vertical; padding:10px 12px; border-radius:10px; border:1px solid #d3c6a2;
+           font:500 13.5px 'Instrument Sans'; color:var(--ink); background:#fff; margin-top:4px}
+  .sms-msg:focus{outline:none; border-color:var(--cabinet); box-shadow:0 0 0 3px rgba(40,75,59,.12)}
+  .tpl-chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:9px}
+  .tchip{font:500 11.5px 'Instrument Sans'; color:#5d5a48; border:1px dashed #c9b98e; background:#f6f0dd;
+         padding:5px 10px; border-radius:999px; cursor:pointer; transition:.15s}
+  .tchip:hover{background:#efe6cc; color:var(--ink)}
+  .sms-count{font:600 10.5px 'IBM Plex Mono'; color:#8a8367; text-align:right; margin-top:6px}
+  .sms-actions{display:flex; gap:10px; margin-top:10px}
+  .sms-send{flex:1; display:inline-flex; align-items:center; justify-content:center; gap:9px;
+            background:linear-gradient(180deg,#35a95e,var(--green)); color:#fff; font:700 14px 'Instrument Sans';
+            padding:13px 16px; border-radius:999px; border:0; cursor:pointer; transition:.2s;
+            box-shadow:0 6px 14px -6px rgba(35,122,69,.55), inset 0 1px 0 rgba(255,255,255,.25)}
+  .sms-send:hover{transform:translateY(-1px); filter:brightness(1.06)}
+  .sms-send svg{width:16px; height:16px}
+  .sms-note{font-size:11.5px; color:#8a8367; line-height:1.55; margin-top:10px}
+  .sms-note b{color:var(--ink)}
+
+  /* ---------- Detail kondisi / sampah ---------- */
+  .overlay{position:fixed; inset:0; z-index:80; display:flex; align-items:center; justify-content:center; padding:20px;
+           background:rgba(24,19,12,0); opacity:0; visibility:hidden; transition:.3s}
+  .overlay.on{opacity:1; visibility:visible; background:rgba(24,19,12,.55)}
+  .sheet-cond{position:relative; width:min(760px,94vw); max-height:88vh; overflow:auto; padding:26px 30px 24px;
+              transform:translateY(16px) scale(.98); transition:.35s cubic-bezier(.2,.8,.25,1); scrollbar-width:thin}
+  .overlay.on .sheet-cond{transform:none}
+  .sheet-cond .xbtn{position:absolute; top:18px; right:18px}
+  .chip-back{display:inline-flex; align-items:center; gap:6px; font:600 11.5px 'IBM Plex Mono'; letter-spacing:.08em;
+             color:var(--door); background:#ecf1e6; border:1px solid #b9c9b6; padding:7px 13px; border-radius:999px;
+             cursor:pointer; margin-bottom:16px; transition:.2s}
+  .chip-back:hover{background:#e2eadf}
+  .cond-head{display:flex; align-items:flex-start; gap:16px; padding-right:44px}
+  .cond-ico{width:54px; height:54px; border-radius:16px; background:var(--cabinet); color:#f2ead6; display:grid;
+            place-items:center; flex:none; box-shadow:inset 0 -8px 0 rgba(0,0,0,.12)}
+  .cond-ico svg{width:26px; height:26px}
+  .cond-kicker{font:600 10.5px 'IBM Plex Mono'; letter-spacing:.16em; text-transform:uppercase; color:#8a6a2f; margin-bottom:5px}
+  .cond-head h2{font:700 26px 'Fraunces'; letter-spacing:-.01em; line-height:1.1}
+  .badge{font:600 9.5px 'IBM Plex Mono'; letter-spacing:.12em; text-transform:uppercase; padding:4px 9px;
+         border-radius:999px; border:1px solid; white-space:nowrap}
+  .lv-darurat{color:#a93325; border-color:#c96a5c; background:#f7e2dc}
+  .lv-dokter {color:#7c5e22; border-color:#bfa05a; background:#f5ecd7}
+  .lv-siaga  {color:#9a5a12; border-color:#d09a4a; background:#f8ecd9}
+  .lv-rawat  {color:#2f5a46; border-color:#5b846e; background:#e4ede2}
+  .lv-pulih  {color:#8d4a56; border-color:#c28592; background:#f6e3e6}
+  .desc{margin-top:14px; color:#4c4a3c; line-height:1.65}
+  .lbl{display:block; font:600 10.5px 'IBM Plex Mono'; letter-spacing:.16em; color:#8a6a2f; margin-bottom:8px; text-transform:uppercase}
+  .signs{margin-top:16px}
+  .signs div{display:flex; flex-wrap:wrap; gap:8px}
+  .chip{font-weight:500; font-size:12px; padding:5px 11px; background:#efe5cd; border:1px solid #ddd0ad; border-radius:999px; color:#4c4633}
+  .chip-no{background:#f7e2dc; border-color:#e3b3a7; color:#7c2c20}
+  .firstaid{display:flex; gap:12px; align-items:center; background:#f7e3dc; border:1px solid #e3b3a7;
+            border-left:4px solid var(--red); border-radius:10px; padding:13px 15px; margin:16px 0 0; color:#7c2c20}
+  .firstaid svg{width:20px; height:20px; flex:none; color:var(--red)}
+  .firstaid p{font-weight:500; font-size:13.5px; line-height:1.5}
+  .sosbtn{margin-left:auto; background:var(--red); color:#fdf3e7; text-decoration:none; font-weight:700; font-size:13px;
+          padding:9px 16px; border-radius:8px; white-space:nowrap; flex:none}
+  .sec{margin:22px 0 6px; font:600 17px 'Fraunces'; display:flex; align-items:baseline; gap:10px}
+  .sec small{font:500 11px 'IBM Plex Mono'; color:#8a8367; letter-spacing:.1em}
+  .meds{list-style:none}
+  .meds li{display:flex; gap:14px; padding:13px 2px; border-top:1px dashed #d8caa6; align-items:flex-start}
+  .shape{display:inline-flex; align-items:center; gap:6px; font:600 10px 'IBM Plex Mono'; letter-spacing:.08em;
+         text-transform:uppercase; color:var(--door); border:1px solid #9db7a6; border-radius:999px; padding:4px 10px;
+         background:#ecf1e6; white-space:nowrap; min-width:128px; justify-content:center; margin-top:2px; flex:none}
+  .shape svg{width:12px; height:12px}
+  .sh-suntik{color:#7c5e22; border-color:#c4a75e; background:#f6eed8}
+  .med-main b{font-weight:600; font-size:15px}
+  .med-main span{display:block; font-size:13px; color:var(--muted); margin-top:2px}
+  .cross{width:100%; text-align:left; margin-top:16px; cursor:pointer; border:1.5px dashed #c9b98e; background:#f6f0dd;
+         border-radius:12px; padding:13px 16px; font-size:13px; color:#5d5a48; transition:.2s; font-family:'Instrument Sans'}
+  .cross:hover{background:#f1e8cf}
+  .cross b{color:var(--ink)}
+  .remind{margin-top:14px; display:flex; gap:10px; background:#f1ecdb; border:1px dashed #c9bb92; border-radius:12px;
+          padding:12px 14px; color:var(--muted); font-size:13px; line-height:1.55}
+  .remind svg{width:16px; height:16px; flex:none; color:#8a6a2f; margin-top:2px}
+  .disc{margin-top:20px; padding-top:16px; border-top:1px dashed #d8caa6; display:flex; gap:14px; align-items:center}
+  .stamp{font:700 9.5px 'IBM Plex Mono'; letter-spacing:.14em; color:var(--door); border:1.5px solid var(--door);
+         padding:4px 8px; border-radius:4px; transform:rotate(-4deg); flex:none}
+  .disc p{font-size:12px; color:#8a8367; line-height:1.6}
+
+  /* ---------- Indeks ---------- */
+  .ixwrap{padding:0; z-index:70}
+  .ixwrap .ix{position:relative; z-index:1; width:min(440px,100vw); height:100%; border-radius:0; display:flex;
+              flex-direction:column; transform:translateX(40px); transition:transform .38s cubic-bezier(.2,.8,.25,1)}
+  .ixwrap.on .ix{transform:none}
+  .ix-head{display:flex; align-items:center; justify-content:space-between; padding:20px 20px 6px}
+  .ix-head h3{font:700 21px 'Fraunces'}
+  .searchbox{position:relative; margin:14px 20px 4px}
+  .searchbox svg{position:absolute; left:13px; top:50%; transform:translateY(-50%); width:16px; height:16px; color:#8a8367}
+  .searchbox input{width:100%; padding:11px 14px 11px 38px; border-radius:12px; border:1px solid #d3c6a2; background:#fffdf6;
+                   font:500 14px 'Instrument Sans'; color:var(--ink)}
+  .searchbox input:focus{outline:none; border-color:var(--cabinet); box-shadow:0 0 0 3px rgba(40,75,59,.12)}
+  .ix-body{overflow:auto; flex:1; padding-bottom:30px}
+  .ix-group h4{font:600 10.5px 'IBM Plex Mono'; letter-spacing:.14em; text-transform:uppercase; color:#8a6a2f; padding:16px 22px 6px}
+  .ix-body .rc-rows{padding:0 16px}
+  .ix-empty{padding:26px 22px; color:#8a8367; font-size:13.5px; line-height:1.6}
+
+  /* ---------- Toast ---------- */
+  .toast{position:fixed; left:50%; bottom:26px; transform:translate(-50%,14px); background:#22301f; color:#f2ead6;
+         font:500 13px 'Instrument Sans'; padding:11px 18px; border-radius:999px; display:flex; gap:9px; align-items:center;
+         box-shadow:0 14px 30px -12px rgba(0,0,0,.5); opacity:0; visibility:hidden; transition:.3s; z-index:120; max-width:92vw}
+  .toast.on{opacity:1; visibility:visible; transform:translate(-50%,0)}
+  .toast svg{width:15px; height:15px; color:#9fc7a8; flex:none}
+  .toast span{overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+
+  .legend{margin-top:40px; padding-top:18px; border-top:1px dashed #cdbf9b; display:flex; flex-wrap:wrap; gap:10px 22px; align-items:center}
+  .lgt{font:600 10.5px 'IBM Plex Mono'; letter-spacing:.16em; color:#8a6a2f; text-transform:uppercase; width:100%}
+  .lg{display:inline-flex; align-items:center; gap:7px; font-weight:500; font-size:12px; color:#5d5a48}
+  .lg svg{width:14px; height:14px; color:var(--door)}
+  .footnote{margin-top:14px; font-size:12.5px; color:#8a8367; max-width:780px; line-height:1.6}
+
+  @media (max-width:1020px){
+    .cabinet{grid-template-columns:repeat(2,1fr); grid-template-rows:160px 160px 250px 150px 84px 84px;
+      grid-template-areas:"darurat darurat" "kamar1 kamar2" "khusus khusus" "tamu tamu" "dapur umum" "atas atas" "tengah tengah"}
+    .cabinet-wrap{flex-direction:column}
+    .side-strip{width:100%; display:grid; grid-template-columns:1fr 96px; gap:14px; align-items:stretch}
+    .cell--front{grid-column:1; grid-row:1 / span 2; width:100%; min-height:0}
+    .phone-pole{grid-column:2; grid-row:1; width:auto; align-self:stretch; height:150px}
+    .postbox{grid-column:2; grid-row:2; width:auto; max-width:none; height:172px}
+    .pb-leg{height:20px}
+    .pp-label{font-size:9px; letter-spacing:.18em}
+    .pp-digits,.pp-free{display:none}
+    .pp-cap{margin-top:22px}
+    .cell--front .door{inset:0}
+    .fd-lamp{display:none}
+    .wbin .can{display:none}
+    .wbin .lid{margin-top:2px; height:4px}
+    .whead{display:none}
+    .wrow{inset:6px; gap:5px 8px}
+  }
+  @media (max-width:560px){
+    .stage{padding:26px 14px 60px}
+    .cabinet{gap:8px; padding:9px; grid-template-rows:140px 140px 230px 130px 80px 80px}
+    .plate .pn{font-size:12px}
+    .door-ico{width:28px; height:28px; margin-top:10px}
+    .sheet-cond{padding:20px 18px}
+    .meds li{flex-direction:column; gap:8px}
+    .shape{min-width:0; align-self:flex-start}
+    .cond-head h2{font-size:22px}
+    .firstaid{flex-wrap:wrap}
+    .rcwrap,.ixwrap{padding:12px}
+    .side-strip{grid-template-columns:1fr 76px}
+    .phone-pole{height:132px}
+    .postbox{height:150px}
+    .pp-handset{width:24px; height:58px}
+    .pp-handset::before,.pp-handset::after{width:21px; height:21px}
+    .pp-hook{top:36px; right:-6px}
+    .pp-bracket{top:44px}
+    .pp-cord{display:none}
+    .pp-plate{width:44px}
+    .pp-label{font-size:8px}
+    .tel-row{grid-template-columns:auto 1fr}
+    .tel-actions{grid-column:1 / -1; padding-left:52px; margin-top:4px}
+    .key{aspect-ratio:1.25}
+    .medrow{grid-template-columns:1fr 30px}
+    .medrow .f-in:first-child{grid-column:1 / -1}
+    .waste-strip{flex-wrap:wrap}
+    .ws-btn{width:100%}
+  }
+</style>
+</head>
+<body>
+<main class="stage">
+
+  <header class="top">
+    <div>
+      <div class="overline">Lembar petunjuk rumah tangga · Edisi Apotek</div>
+      <h1>Lemari Obat <em>Rumah</em></h1>
+      <p class="lede"><b id="statCond">19</b> keluhan, <b id="statMeds">98</b> kemasan obat, pilar telepon darurat,
+      <b>pos surat</b>, dan <b>pos pilah 5 tong</b> — tiap ruangan punya tong sendiri, sampahnya dikirim ke teras,
+      lalu dibersihkan atau diurai jadi kertas baru.</p>
+    </div>
+    <div class="tools">
+      <div class="clock"><b id="clock">--:--:--</b><small id="dateNow">—</small></div>
+      <button class="btn btn-dark" data-index="1"><i data-lucide="search"></i>Indeks &amp; cari</button>
+      <button class="btn btn-red" data-sos="1"><i data-lucide="siren"></i>Darurat · 119</button>
+    </div>
+  </header>
+
+  <div class="house">
+    <div class="roof"><span class="plaque">APOTEK RUMAH · RAK No. 01</span></div>
+    <div class="cabinet-wrap">
+      <div class="cabinet" id="cabinet"></div>
+
+      <div class="side-strip">
+        <aside class="cell cell--front cell--luar" aria-label="Pos sampah Luar Rumah">
+          <span class="fd-lamp"></span>
+          <div class="glow"></div>
+          <div class="wrow" id="wasteRow"></div>
+          <button class="door door--front" data-room="luar" aria-label="Buka kartu pos sampah Luar Rumah">
+            <span class="door-front">
+              <span class="plate">
+                <span class="pc">O · TERAS</span>
+                <span class="pn">Luar Rumah</span>
+                <span class="ps">Pos pilah 5 tong</span>
+              </span>
+              <span class="door-ico"><i data-lucide="recycle"></i></span>
+              <span class="dbin" id="terasBadge" style="display:none"></span>
+              <span class="knob"></span>
+            </span>
+            <span class="door-back"><span class="bp">O</span></span>
+          </button>
+        </aside>
+
+        <button class="phone-pole" id="phonePole" aria-haspopup="dialog" aria-expanded="false"
+                aria-label="Angkat gagang: telepon & SMS darurat Indonesia">
+          <span class="pp-lamp"></span>
+          <span class="pp-cap"></span>
+          <span class="pp-bracket"></span>
+          <span class="pp-hook"><span class="pp-handset"></span></span>
+          <span class="pp-plate"><span class="pp-label">DARURAT</span></span>
+          <span class="pp-digits">110 · 113 · 115<br>117 · 118 · 119</span>
+          <span class="pp-free">GRATIS</span>
+          <svg class="pp-cord" viewBox="0 0 24 64" aria-hidden="true">
+            <path d="M12 2C4 10 20 16 12 24 4 32 20 38 12 46c-6 6 6 10 0 16" fill="none" stroke="rgba(20,10,8,.4)" stroke-width="2.4" stroke-linecap="round"/>
+          </svg>
+        </button>
+
+        <button class="postbox" id="postBox" aria-haspopup="dialog" aria-expanded="false"
+                aria-label="Pos Surat: kirim formula baru, otomatis masuk lemari">
+          <span class="pb-top"><span class="pb-slot"></span><span class="pb-slot"></span></span>
+          <span class="pb-body">
+            <span class="pb-env" aria-hidden="true"></span>
+            <span class="pb-brand">BIS SURAT</span>
+            <span class="pb-pos">POS</span>
+            <span class="pb-sub">kirim formula<br>baru di sini</span>
+            <span class="pb-count" id="posCount">0</span>
+          </span>
+          <span class="pb-leg"></span>
+          <span class="pb-base"></span>
+        </button>
+      </div>
+    </div>
+    <div class="plinth"></div>
+  </div>
+
+  <div class="legend">
+    <span class="lgt">Tanda bentuk sediaan yang dipakai di petunjuk obat</span>
+    <span class="lg"><i data-lucide="pill"></i>Tablet</span>
+    <span class="lg"><i data-lucide="pill"></i>Kapsul</span>
+    <span class="lg"><i data-lucide="droplets"></i>Sirup</span>
+    <span class="lg"><i data-lucide="droplets"></i>Cairan / infus</span>
+    <span class="lg"><i data-lucide="flask-conical"></i>Tablet larut</span>
+    <span class="lg"><i data-lucide="syringe"></i>Suntik · vaksin cair</span>
+    <span class="lg"><i data-lucide="wind"></i>Inhaler</span>
+    <span class="lg"><i data-lucide="droplet"></i>Obat luar</span>
+    <span class="lg"><i data-lucide="stethoscope"></i>Terapi / tindakan</span>
+    <span class="lg"><i data-lucide="sun"></i>Gaya hidup</span>
+  </div>
+  <p class="footnote">Disusun sebagai lemari edukasi keluarga, bukan pengganti resep. Selalu konsultasikan dosis dan
+  keputusan pengobatan ke dokter atau apoteker. Alur sampah rumah: tong ruangan → dikirim ke pos pilah teras →
+  dibersihkan atau diurai jadi kertas baru; B3 &amp; medis memang wajib jalur resmi. Semua logo digambar internal —
+  pasti muncul walau tanpa internet.</p>
+</main>
+
+<div class="rcwrap" id="rcWrap"><div class="sheet rc" id="rcSheet" role="dialog" aria-label="Isi kompartemen"></div></div>
+<div class="rcwrap" id="telWrap"><div class="sheet rc" id="telSheet" role="dialog" aria-label="Telepon & SMS darurat Indonesia"></div></div>
+<div class="rcwrap" id="posWrap"><div class="sheet rc" id="posSheet" role="dialog" aria-label="Pos Surat — kirim formula baru"></div></div>
+<div class="ixwrap" id="ixWrap">
+  <aside class="sheet ix" role="dialog" aria-label="Indeks penyakit, obat dan sampah">
+    <header class="ix-head">
+      <div><div class="overline">Indeks cepat</div><h3>Temukan keluhannya</h3></div>
+      <button class="xbtn" data-ixclose="1" aria-label="Tutup indeks"><i data-lucide="x"></i></button>
+    </header>
+    <div class="searchbox"><i data-lucide="search"></i>
+      <input id="ixSearch" type="text" placeholder="Ketik: corona, tifoid, vaksin, baterai…" autocomplete="off">
+    </div>
+    <div class="ix-body" id="ixBody"></div>
+  </aside>
+</div>
+<div class="overlay" id="condOverlay"><div class="sheet sheet-cond" id="condSheet" role="dialog" aria-modal="true"></div></div>
+<div class="toast" id="toast" role="status">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+  <span></span>
+</div>
+
+<script>
+/* ================= DATA: bentuk sediaan ================= */
+const SHAPES = {
+  tablet :{label:'Tablet',          icon:'pill'},
+  kapsul :{label:'Kapsul',          icon:'pill'},
+  sirup  :{label:'Sirup',           icon:'droplets'},
+  cair   :{label:'Cairan / infus',  icon:'droplets'},
+  larut  :{label:'Tablet larut',    icon:'flask-conical'},
+  suntik :{label:'Suntik · vaksin', icon:'syringe'},
+  inhaler:{label:'Inhaler',         icon:'wind'},
+  topikal:{label:'Obat luar',       icon:'droplet'},
+  terapi :{label:'Terapi',          icon:'stethoscope'},
+  hidup  :{label:'Gaya hidup',      icon:'sun'},
+};
+const MED_VESSEL = {tablet:'bottle', kapsul:'bottle', sirup:'bottle', cair:'bottle', larut:'bottle',
+                    suntik:'vial', inhaler:'inhaler', topikal:'bottle', terapi:'box', hidup:'box'};
+
+/* ================= DATA: ruangan ================= */
+const ROOMS = [
+  {id:'khusus',  code:'K',  name:'Lemari Khusus', sub:'Obat keras — hanya dengan resep', conds:['jantung','ktenggorokan','kparu'],
+   note:'Pintu kaca ini selalu dikunci. Setiap kemasan di dalamnya hanya boleh menyala bersama resep dokter.'},
+  {id:'darurat', code:'D',  name:'Kamar Darurat', sub:'Untuk menit yang tidak menunggu', conds:['asma'],
+   note:'Rak ini harus selalu bisa dijangkau dalam hitungan detik — cek isinya setiap bulan.'},
+  {id:'kamar1',  code:'R1', name:'Kamar 1', sub:'Rak tidur, makan larut malam', conds:['lambung'],
+   note:'Obat lambung bekerja maksimal kalau jam makanmu juga ikut "diobati".'},
+  {id:'kamar2',  code:'R2', name:'Kamar 2', sub:'Rak yang butuh keheningan', conds:['jiwa'],
+   note:'Rak paling sensitif di rumah: rahasiakan isinya, hormati pemiliknya, jangan pernah menghakimi.'},
+  {id:'tamu',    code:'T',  name:'Ruang Tamu', sub:'Dibutuhkan bersama orang lain', conds:['hati'],
+   note:'Sebagian obat di rak ini tidak dijual di apotek mana pun — harap maklum, stoknya terbatas.'},
+  {id:'umum',    code:'U',  name:'Lemari Umum', sub:'Obat bebas, dibaca dulu ya', conds:['demam'],
+   note:'Boleh diambil siapa pun — asal baca petunjuknya dulu dan jangan menggandeng dosis.'},
+  {id:'dapur',   code:'P',  name:'Dapur', sub:'Higien, luka, dan sisa makan', conds:['bakteri'],
+   note:'Antibiotik bukan bumbu: tanpa resep, sebaiknya tidak "dimasak" ke dalam tubuh siapa pun.'},
+  {id:'atas',    code:'L1', name:'Lantai Atas', sub:'Flu · batuk · saraf · corona · 8 formula', drawer:true,
+   conds:['kepala','flu','batuk','terjebit','ususbuntu','saraf','salmonella','corona'],
+   note:'Laci paling atas kini rak terpadat di rumah — migrain, flu, batuk berdahak, saraf terjepit, usus buntu, penyakit saraf, salmonella, dan corona.'},
+  {id:'tengah',  code:'L2', name:'Lantai Tengah', sub:'Vaksin, antivirus & daya tahan', drawer:true,
+   conds:['virus','imun'],
+   note:'Persediaan agar tubuh hafal musuhnya sebelum diserang — kartu kuning vaksinmu adalah buktinya.'},
+  {id:'luar',    code:'O',  name:'Luar Rumah', sub:'Pos pilah 5 tong sampah', wastes:['organik','b3','nonorganik','medis','nonmedis'],
+   note:'Pos pemilahan teras: semua tong ruangan dikirim ke sini, lalu dibersihkan atau diurai jadi kertas baru.'},
+];
+
+const ROOM_WASTE = {
+  khusus:'b3', darurat:'medis', kamar1:'nonmedis', kamar2:'nonmedis', tamu:'nonorganik',
+  umum:'nonmedis', dapur:'organik', atas:'medis', tengah:'medis',
+};
+
+/* ================= DATA: kondisi ================= */
+const CONDS = {
+  jantung:{
+    name:'Serangan Jantung', icon:'heart-pulse', room:'khusus', code:'K-01', lv:'darurat', level:'Darurat — jangan ditunda', vessel:'vial',
+    desc:'Aliran darah ke otot jantung tersumbat plak kolesterol. Di sini menit benar-benar menentukan: makin cepat ditangani, makin banyak otot jantung yang selamat.',
+    signs:['Nyeri dada seperti diremas','Menjalar ke lengan kiri / rahang','Keringat dingin','Sesak napas','Mual & lemas'],
+    sos:{text:'Dudukkan yang bersangkutan, longgarkan pakaian, dan jangan biarkan berjalan sendiri. Menit pertama menentukan — telepon ambulans sekarang.', tel:'119'},
+    meds:[
+      {form:'tablet', name:'Aspirin 80 mg (tablet kunyah)', note:'Dikunyah satu tablet saat dugaan serangan jantung (bila tidak alergi); mengencerkan darah agar sumbatan tidak bertambah.'},
+      {form:'cair',   name:'Nitroglycerin (spray di bawah lidah)', note:'Melebarkan pembuluh darah jantung saat nyeri dada. Hanya untuk yang sudah terdiagnosis dan sesuai arahan dokter.'},
+      {form:'tablet', name:'Isosorbide dinitrate (tablet sublingual)', note:'Cadangan untuk penderita angina; diletakkan di bawah lidah saat serangan.'},
+      {form:'kapsul', name:'Atorvastatin', note:'Penurun kolesterol jangka panjang untuk mencegah serangan berikutnya; diminum rutin tiap malam.'},
+      {form:'suntik', name:'Heparin / enoxaparin (injeksi cair)', note:'Pengencer darah darurat — diberikan oleh tenaga medis di IGD, bukan disuntik sendiri di rumah.'},
+      {form:'suntik', name:'Vaksin influenza (suntikan cair)', note:'Diperbarui tiap tahun; menurunkan risiko serangan jantung yang terpicu infeksi flu.'},
+    ],
+    remind:'Simpan nitroglycerin di tempat gelap dan sejuk; ganti botolnya setiap 6 bulan setelah dibuka. Jangan menyimpannya di mobil yang panas.',
+  },
+  ktenggorokan:{
+    name:'Kanker Tenggorokan', icon:'mic', room:'khusus', code:'K-02', lv:'dokter', level:'Wajib dokter', vessel:'vial',
+    desc:'Pertumbuhan sel abnormal di laring atau faring, paling sering terkait merokok dan minuman keras. Suara serak yang tak sembuh adalah kuncinya: diagnosis dini mengubah nasib.',
+    signs:['Serak lebih dari 2 minggu','Tenggorokan terasa tersumbat','Sulit menelan','Benjolan di leher','Telinga sebelah nyeri'],
+    meds:[
+      {form:'cair',   name:'Cisplatin (infus kemoterapi)', note:'Kemoterapi utama lewat tetes infus di rumah sakit, selalu dikawal obat anti-mual.'},
+      {form:'cair',   name:'Carboplatin (infus)', note:'Skenario kemoterapi alternatif atau gabungan; jadwalnya ditentukan onkolog.'},
+      {form:'cair',   name:'Cetuximab (infus terapi target)', note:'Menempel pada sinyal pertumbuhan kanker; untuk kasus yang terpilih setelah pemeriksaan.'},
+      {form:'terapi', name:'Radioterapi', note:'Sinar presisi 5×/minggu selama ±6–7 minggu; sering menjadi terapi utama pada tahap awal.'},
+      {form:'tablet', name:'Ondansetron (tablet / sirup)', note:'Penenang mual-muntah pendamping kemoterapi; tersedia juga versi suntik di RS.'},
+    ],
+    remind:'Tidak ada pil kanker yang diminum di rumah sembarangan. Seluruh perawatan wajib melalui dokter spesialis THT–onkologi.',
+  },
+  kparu:{
+    name:'Kanker Paru-Paru', icon:'microscope', room:'khusus', code:'K-03', lv:'dokter', level:'Wajib dokter', vessel:'vial',
+    desc:'Kanker yang paling sering terkait rokok — termasuk rokok orang lain di sekitar kita. Batuk yang tidak sembuh tiga minggu adalah alarm, bukan "masa flu-flunya saja".',
+    signs:['Batuk makin parah / batuk darah','Sesak napas','Nyeri dada','Serak menahun','Berat badan turun tanpa sebab'],
+    meds:[
+      {form:'tablet', name:'Gefitinib / erlotinib (tablet terapi target)', note:'Untuk kanker paru dengan mutasi gen tertentu (dites dulu); diminum harian di rumah dengan pengawasan onkolog.'},
+      {form:'cair',   name:'Paclitaxel + carboplatin (infus)', note:'Kombinasi kemoterapi yang biasanya dijadwalkan setiap tiga minggu sekali.'},
+      {form:'cair',   name:'Pembrolizumab (infus imunoterapi)', note:'Membangunkan sel imun untuk menyerang kanker; lewat infus tiap beberapa minggu.'},
+      {form:'tablet', name:'Morfin (tablet lepas lambat)', note:'Manajemen nyeri kanker sesuai skala yang dinilai dokter — bukan sekadar penghilang sakit biasa.'},
+      {form:'hidup',  name:'Berhenti merokok', note:'Terapi paling murah dan paling terbukti: paru mulai membaik 24 jam setelah rokok terakhir.'},
+    ],
+    remind:'Skrining CT rendah-dosis disarankan untuk perokok berat usia 50–80 tahun. Tanyakan ke dokter paru terdekat.',
+  },
+  asma:{
+    name:'Asma', icon:'wind', room:'darurat', code:'D-01', lv:'siaga', level:'Siaga darurat', vessel:'inhaler',
+    desc:'Saluran napas yang mudah sempit saat terpicu debu, bulu hewan, udara dingin, olahraga, atau infeksi. Ini bukan penyakit untuk menunda-nunda menyalakan inhaler.',
+    signs:['Mengi (napas bersiul)','Dada sesak','Batuk di malam hari','Napas pendek'],
+    sos:{text:'Sesak hebat, bibir kebiruan, atau tidak bisa menyambung kata: semprotkan inhaler dan segera ke IGD terdekat.', tel:'119'},
+    meds:[
+      {form:'inhaler', name:'Salbutamol (inhaler biru)', note:'Penyelamat cepat: 2–4 semprotan saat sesak; melebarkan saluran napas dalam hitungan menit.'},
+      {form:'inhaler', name:'Budesonide + formoterol (inhaler)', note:'Obat kontrol harian yang menekan peradangan agar asma tidak mudah kambuh.'},
+      {form:'cair',    name:'Nebulizer (ipratropium / budesonide cair)', note:'Uap obat lewat mesin nebulizer — untuk serangan di rumah maupun di IGD.'},
+      {form:'tablet',  name:'Prednison', note:'Kortison jangka pendek untuk serangan berat; hanya dengan resep dan jadwal dari dokter.'},
+      {form:'tablet',  name:'Montelukast (tablet kunyah)', note:'Pencegahan jangka panjang, diminum di malam hari.'},
+    ],
+    remind:'Cek tanggal kedaluwarsa dan sisa dosis inhaler tiap 3 bulan; simpan satu di Kamar Darurat, satu di tas.',
+  },
+  lambung:{
+    name:'Asam Lambung (GERD)', icon:'flame', room:'kamar1', code:'R1-01', lv:'rawat', level:'Rawat di rumah', vessel:'bottle',
+    desc:'Katup lambung yang rewel sehingga asam naik ke kerongkongan — biasanya setelah makan pedas, makan terlalu larut, atau tidur langsung setelah makan.',
+    signs:['Panas di dada (heartburn)','Rasa masam naik','Sendawa terus','Kembung','Serak saat bangun pagi'],
+    cross:{id:'jantung', text:'Nyeri dada "terbakar" kadang meniru serangan jantung. Kalau ragu, cek rak K-01 di Lemari Khusus lebih dulu.'},
+    meds:[
+      {form:'tablet', name:'Antasida (Antasida Doen, tablet kunyah)', note:'Penawar cepat yang menetralkan asam yang sudah naik; diminum setelah makan atau saat gejala muncul.'},
+      {form:'kapsul', name:'Omeprazole 20 mg', note:'Menekan produksi asam; diminum 30–60 menit sebelum makan pagi, maksimal 14 hari tanpa konsultasi.'},
+      {form:'tablet', name:'Famotidine', note:'Alternatif penekan asam yang cocok diminum sebelum makan malam "berat".'},
+      {form:'cair',   name:'Sucralfate (suspensi)', note:'Melapisi luka lambung seperti plester; diminum saat perut kosong.'},
+      {form:'hidup',  name:'Piring kecil & makan perlahan', note:'Jangan langsung tidur 2–3 jam setelah makan; kurangi kopi, soda, pedas, dan cokelat.'},
+    ],
+    remind:'Heartburn lebih dari dua kali seminggu secara terus-menerus perlu diperiksa — gejalanya bisa meniru jantung.',
+  },
+  jiwa:{
+    name:'Sakit Jiwa (Kesehatan Mental)', icon:'brain', room:'kamar2', code:'R2-01', lv:'rawat', level:'Rawat & pendampingan', vessel:'bottle',
+    desc:'Depresi, kecemasan berat, dan gangguan lain adalah kondisi medis — bukan lemah iman atau kurang bersyukur. Otak juga organ yang bisa sakit, dan bisa diobati.',
+    signs:['Sedih / hampa terus-menerus','Sulit tidur atau tidur terus','Hilang minat','Mudah lelah','Pikiran menyakiti diri'],
+    sos:{text:'Jika muncul pikiran mengakhiri hidup, jangan sendirian — hubungi layanan SEJIWA (119 ext. 8) atau orang terdekat sekarang.', tel:'119'},
+    cross:{id:'hati', text:'Kalau pemicunya baru saja terjadi dan masih hangat, Ruang Tamu juga punya rak khusus untuknya.'},
+    meds:[
+      {form:'kapsul', name:'Fluoxetine (kapsul)', note:'Antidepresan SSRI; efek terasa setelah 2–4 minggu, wajib diminum konsisten.'},
+      {form:'tablet', name:'Sertraline', note:'SSRI yang juga dipakai untuk kecemasan berat; dosis dinaikkan bertahap oleh dokter.'},
+      {form:'tablet', name:'Risperidone', note:'Antipsikotik untuk gangguan berat seperti skizofrenia; rutinitas adalah kuncinya.'},
+      {form:'tablet', name:'Alprazolam', note:'Penenang sesaat untuk serangan panik akut — resep ketat, mudah kecanduan, jangan disimpan sembarangan.'},
+      {form:'terapi', name:'Psikoterapi / konseling', note:'Terapi bicara (CBT) terbukti sekuat obat untuk banyak kondisi; berjalan paling baik saat digandengkan dengan obat.'},
+    ],
+    remind:'Jangan berhenti minum mendadak — turunkan dosis pelan-pelan bersama dokter. Obat ini memang lambat, tetapi ia bekerja.',
+  },
+  hati:{
+    name:'Sakit Hati', icon:'heart-crack', room:'tamu', code:'T-01', lv:'pulih', level:'Proses pulih', vessel:'bottle',
+    desc:'Penyakit tertua di dunia: ditinggal, ditolak, dikhianati. Secara medis otak memprosesnya seperti nyeri — jadi wajar kalau beneran perih. Sembuhnya butuh resep yang jarang diresepkan: waktu.',
+    signs:['Tak nafsu makan','Replay percakapan jam 2 pagi','Lagu sedih diputar ulang','"Aku gapapa kok" (padahal tidak)'],
+    cross:{id:'jiwa', text:'Kalau sedihnya berat dan berlangsung berminggu-minggu, buka Kamar 2 — itu sudah wilayah kesehatan mental.'},
+    meds:[
+      {form:'cair',   name:'Teh chamomile (seduhan hangat)', note:'Satu cangkir sebelum tidur; menenangkan tanpa efek samping.'},
+      {form:'tablet', name:'Cokelat hitam 70%', note:'Dosis: dua persegi. Alasan ilmiahnya menipis, tapi anggap saja farmasi rasa.'},
+      {form:'terapi', name:'Curhat ke teman baik / keluarga', note:'Bentuk sediaan: satu orang yang mendengarkan tanpa menyela. Gratis, tanpa resep, stok tak terbatas.'},
+      {form:'terapi', name:'Menulis + jalan pagi', note:'Tulis yang tak pernah terkirim, lalu jalan 20 menit sambil memandang jauh. Ulangi sampai ringan.'},
+      {form:'hidup',  name:'Waktu (kapsul lepas lambat)', note:'Bekerja dalam hitungan minggu. Efek samping: kamu jadi tahu siapa yang pantas tinggal.'},
+    ],
+    remind:'Obat yang menjanjikan "lupa dalam sekejap" biasanya malah menumpuk luka di rak bawah. Waktu yang paling terbukti.',
+  },
+  demam:{
+    name:'Demam Tinggi', icon:'thermometer-sun', room:'umum', code:'U-01', lv:'rawat', level:'Rawat di rumah', vessel:'box',
+    desc:'Demam adalah AC tubuh yang sedang berperang melawan infeksi. Angka yang dikhawatirkan: 39,5 °C ke atas, demam lebih dari 3 hari, atau disertai kejang dan napas cepat.',
+    signs:['Suhu ≥ 38,5 °C','Badan pegal-pegal','Menggigil','Pusing & lemas'],
+    meds:[
+      {form:'tablet', name:'Paracetamol 500 mg', note:'Pilihan pertama. Dewasa: 1 tablet tiap 6 jam, maksimal 4 gram per hari.'},
+      {form:'sirup',  name:'Paracetamol sirup / tetes', note:'Versi cair untuk anak; dosisnya dihitung dari berat badan (±15 mg/kg) — gunakan alat takar, bukan perkiraan sendok.'},
+      {form:'tablet', name:'Ibuprofen', note:'Alternatif saat paracetamol kurang; diminum sesudah makan. Hindari bila DBD dicurigai.'},
+      {form:'cair',   name:'Oralit / air elektrolit', note:'Cairan pengganti yang sering lebih penting dari obatnya — demam menguapkan air tubuh.'},
+      {form:'hidup',  name:'Kompres hangat + istirahat', note:'Kompres dahi, leher, dan ketiak dengan air hangat (bukan es); buka pakaian tebal; turunkan suhu kamar.'},
+    ],
+    remind:'Jangan gonta-ganti obat penurun panas tiap jam; beri jeda sesuai aturan, dan catat hasil pengukuran suhunya.',
+  },
+  bakteri:{
+    name:'Anti Bakteri', icon:'shield-plus', room:'dapur', code:'P-01', lv:'rawat', level:'Resep dokter', vessel:'bottle',
+    desc:'Antibiotik hanyalah untuk infeksi bakteri — tidak berpengaruh sama sekali pada virus. Persediaan di rak dapur untuk luka ringan dan gangguan makanan.',
+    signs:['Luka bengkak bernanah','Radang merah yang menjalar','Diare karena makanan basi','Panas tiup yang menahun'],
+    meds:[
+      {form:'kapsul',  name:'Amoxicillin 500 mg', note:'Antibiotik lini pertama untuk infeksi ringan; wajib resep dan wajib dihabiskan sesuai aturan dokter.'},
+      {form:'tablet',  name:'Cefixime 100/200 mg', note:'Sefalosporin untuk infeksi saluran kemih dan tenggorokan.'},
+      {form:'tablet',  name:'Azithromycin', note:'Dosis pendek tiga hari; sering dipakai untuk infeksi saluran napas bakterial yang menetap.'},
+      {form:'topikal', name:'Povidone iodine (Betadine, cair)', note:'Untuk luka di luar tubuh: bersihkan, oles, tutup dengan plester. Bukan untuk diminum.'},
+      {form:'hidup',   name:'Pisau & talenan bersih', note:'Pencegahan termurah: pisahkan bahan mentah dan matang, cuci tangan sebelum makan.'},
+    ],
+    remind:'Sisa antibiotik jangan disimpan untuk "nanti kalau sakit lagi" dan jangan dibagi ke orang lain.',
+  },
+  virus:{
+    name:'Anti Virus', icon:'bug', room:'tengah', code:'L2-01', lv:'siaga', level:'Siap siaga', vessel:'vial',
+    desc:'Virus tidak bisa dibunuh antibiotik. Yang bisa: obat antivirus khusus untuk virus tertentu, dan vaksin supaya tubuh sudah hafal musuhnya sebelum diserang.',
+    signs:['Demam flu, batuk, pilek','Lepuh di kulit','Nyeri otot hebat di musim pancaroba'],
+    meds:[
+      {form:'kapsul', name:'Oseltamivir (Tamiflu)', note:'Antivirus flu; paling efektif kalau dimulai dalam 48 jam pertama gejala.'},
+      {form:'tablet', name:'Acyclovir', note:'Untuk herpes dan cacar air; makin cepat diminum, makin cepat kering.'},
+      {form:'suntik', name:'Vaksin influenza (suntikan cair)', note:'Diperbarui tiap tahun; vialnya memang cair dan disuntik ke otot lengan.'},
+      {form:'suntik', name:'Vaksin COVID-19 (suntikan cair)', note:'Dosis lanjutan sesuai jadwal yang direkomendasikan.'},
+      {form:'suntik', name:'Vaksin HPV (suntikan cair)', note:'Mencegah virus yang memicu beberapa jenis kanker; idealnya diberikan usia 9–26 tahun.'},
+    ],
+    remind:'Vaksin itu pelatihan tanpa pertandingan: tubuh belajar melawan virus tanpa harus sakit dulu.',
+  },
+  imun:{
+    name:'Anti Segala Macam Penyakit', icon:'shield-check', room:'tengah', code:'L2-02', lv:'rawat', level:'Pondasi sehat', vessel:'bottle',
+    desc:'Jujur dari apoteker: tidak ada pil yang benar-benar anti semua penyakit. "Obat" terkuatnya justru sederhana — sinar matahari, langkah kaki, dan piring yang jujur.',
+    signs:['Sering capek','Gampang sakit 2–3× sebulan','Luka lama sembuh'],
+    meds:[
+      {form:'larut',  name:'Vitamin C 1000 (tablet effervescent)', note:'Dilarutkan segelas air sampai berbunyi; jangan ditelan langsung.'},
+      {form:'kapsul', name:'Vitamin D3 1000–2000 IU', note:'Kapsul "sinar matahari" untuk langit mendung; membantu sel imun bekerja.'},
+      {form:'tablet', name:'Zinc', note:'Mineral kecil yang membuat sel imun sigap; jangan melebihi dosis harian.'},
+      {form:'suntik', name:'Vaksinasi lengkap (suntikan cair)', note:'Kartu kuningmu adalah lemari obat paling bergizi: hepatitis, tetanus, campak, dan saudara-saudaranya.'},
+      {form:'hidup',  name:'Jalan 30 menit + tidur 7–8 jam', note:'Resep harian tanpa efek samping; harganya gratis, efeknya terasa paling lama.'},
+      {form:'hidup',  name:'Madu + air hangat', note:'Untuk tenggorokan dan moral. Manfaatnya sedang, rasa hangatnya besar.'},
+    ],
+    remind:'Jamu "anti semua penyakit" yang dijual mahal di pinggir jalan: hati-hati. Yang mengklaim menyembuhkan segalanya, biasanya tidak menyembuhkan apa-apa.',
+  },
+  kepala:{
+    name:'Sakit Kepala Berlebihan (Migrain)', icon:'zap', room:'atas', code:'L1-01', lv:'siaga', level:'Rawat di rumah', vessel:'box',
+    desc:'Sakit kepala yang bikin bersembunyi dari cahaya dan suara. Pemicu klasiknya: kurang tidur, telat makan, layar terlalu lama, stres — lalu stres karena pusing.',
+    signs:['Nyeri berdenyut sebelah','Muak cahaya & bising','Mual','Pandangan berkilau sebelum nyeri'],
+    meds:[
+      {form:'tablet', name:'Paracetamol 500–650 mg', note:'Minum di awal nyeri; jangan tunggu sampai mencapai "puncak".'},
+      {form:'tablet', name:'Sumatriptan', note:'Spesialis migrain: menyempitkan pembuluh yang melebar. Untuk migrain berat tersedia juga versi suntikan cair.'},
+      {form:'tablet', name:'Naproxen', note:'NSAID tahan lama untuk nyeri yang panjang; diminum sesudah makan.'},
+      {form:'cair',   name:'Kopi hitam satu cangkir', note:'Kafein membantu menyerap obat dan mengempiskan pembuluh — diambil dari dapur, bukan dari lemari.'},
+      {form:'hidup',  name:'Ruangan gelap & sunyi (kamar lantai atas)', note:'Tidur 30–60 menit di ruang paling gelap di rumah; kompres dingin di dahi.'},
+    ],
+    remind:'Minum pil lebih dari 10 kali sebulan justru memicu "sakit kepala pantang obat" (MOH). Catat pemicunya di buku kecil.',
+  },
+  flu:{
+    name:'Flu (Influenza)', icon:'thermometer', room:'atas', code:'L1-02', lv:'rawat', level:'Rawat di rumah', vessel:'box',
+    desc:'Infeksi virus saluran napas yang datang mendadak: demam tinggi, pegal-pegal, bersin-bersin. Umumnya pulih sendiri 5–7 hari; kuncinya cairan, istirahat, dan tidak menular ke orang lain.',
+    signs:['Demam & menggigil mendadak','Hidung tersumbat / berair','Bersin-bersin','Badan pegal','Lemas berat'],
+    meds:[
+      {form:'tablet', name:'Paracetamol 500 mg', note:'Menurunkan demam dan meredakan pegal; tiap 6 jam bila perlu, maksimal 4 gram per hari.'},
+      {form:'tablet', name:'Chlorpheniramine (CTM)', note:'Peredam pilek & bersin; membuat mengantuk — paling cocok diminum menjelang tidur.'},
+      {form:'larut',  name:'Vitamin C 1000 (effervescent)', note:'Dilarutkan segelas air; pendamping pemulihan selama sakit.'},
+      {form:'cair',   name:'Madu + lemon air hangat', note:'Menenangkan tenggorokan dan melegakan hidung tersumbat.'},
+      {form:'hidup',  name:'Istirahat & isolasi ringan', note:'3 hari di rumah, banyak minum, pakai masker saat bertemu orang agar tidak menular.'},
+    ],
+    remind:'Flu: demam tinggi tiba-tiba. Pilek biasa: hampir tanpa demam. Vaksin influenza tahunan memperkecil risikonya.',
+  },
+  batuk:{
+    name:'Batuk Berdahak', icon:'cloud', room:'atas', code:'L1-03', lv:'rawat', level:'Rawat di rumah', vessel:'bottle',
+    desc:'Dahak kental menumpuk di saluran napas sehingga batuk terasa "berat" di dada. Sasarannya bukan mematikan batuk, melainkan mengencerkan dahak agar mudah keluar.',
+    signs:['Batuk dengan dahak kental','Dada terasa berat / gatal','Sering serak','Tenggorokan gatel'],
+    meds:[
+      {form:'tablet', name:'Ambroxol', note:'Pengencer dahak; diminum sesudah makan 3× sehari.'},
+      {form:'sirup',  name:'Glyceryl guaiacolate (sirup ekspektoran)', note:'Membantu dahak naik saat batuk; cocok untuk yang tak bisa menelan tablet.'},
+      {form:'larut',  name:'N-acetylcysteine (effervescent)', note:'Pengencer dahak kuat; dilarutkan dulu di air sampai habis bunyinya.'},
+      {form:'cair',   name:'Madu + air hangat', note:'Pelembap tenggorokan alami; aman untuk dewasa dan anak di atas 1 tahun.'},
+      {form:'hidup',  name:'Air putih banyak', note:'Air adalah pengencer dahak paling murah — minum lebih banyak dari biasanya.'},
+    ],
+    remind:'Batuk kering mengganjal ≠ batuk berdahak. Yang pertama cocok ditekan, yang kedua dahaknya justru harus dikeluarkan.',
+  },
+  terjebit:{
+    name:'Saraf Terjepit (HNP)', icon:'bone', room:'atas', code:'L1-04', lv:'dokter', level:'Perlu dokter', vessel:'bottle',
+    desc:'Bantalan ruas tulang belakang menekan akar saraf — karena duduk buruk, angkat beban salah, atau usia. Nyerinya menjalar, kadang sampai kesemutan ke kaki.',
+    signs:['Nyeri menjalar dari punggung ke kaki','Kesemut / baal','Nyeri tajam saat ditegakkan','Otot terasa lemah'],
+    meds:[
+      {form:'tablet', name:'Mefenamic acid', note:'Pereda nyeri jangka pendek; wajib sesudah makan.'},
+      {form:'kapsul', name:'Celecoxib', note:'NSAID spesifik nyeri saraf; hanya dengan resep dokter.'},
+      {form:'tablet', name:'Vitamin B kompleks (B1·B6·B12)', note:'Membantu regenerasi saraf yang tertekan; pendamping obat nyeri.'},
+      {form:'tablet', name:'Baclofen', note:'Relaksan otot saat punggung kaku kencang; membuat kantuk — hindari berkendara.'},
+      {form:'terapi', name:'Fisioterapi & latihan postur', note:'Terapi penyebab, bukan sekadar meredakan; latihan penguatan inti mencegah kambuh.'},
+      {form:'hidup',  name:'Kompres hangat + duduk tegak', note:'Bantal di punggung bawah saat duduk; hindari mengangkat beban berat.'},
+    ],
+    remind:'Kalau mulai sulit mengompol atau kaki makin lemah, itu tanda darurat — segera ke dokter saraf.',
+  },
+  ususbuntu:{
+    name:'Usus Buntu (Apendisitis)', icon:'siren', room:'atas', code:'L1-05', lv:'darurat', level:'Segera ke IGD', vessel:'vial',
+    desc:'Peradangan di ujung usus buntu. Dimulai nyeri sekitar pusar lalu berpindah ke perut kanan bawah dan makin tajam. Ini keadaan bedah: makin lambat, makin berisiko pecah.',
+    signs:['Nyeri perut kanan bawah','Mual & muntah','Demam ringan','Nafsu makan hilang','Perut menahan sentuhan'],
+    sos:{text:'Jangan minum obat nyeri atau antibiotik sisa untuk "menunggu reda" — bisa menutupi gejala. Baringkan yang bersangkutan dan segera ke IGD.', tel:'119'},
+    meds:[
+      {form:'terapi', name:'Apendektomi (operasi)', note:'Penanganan utama: usus buntu diambil sebelum pecah; tindakan rutin di RS.'},
+      {form:'cair',   name:'Ceftriaxone (infus antibiotik)', note:'Dikawal di RS sebelum & sesudah operasi; bukan untuk diminum sendiri.'},
+      {form:'cair',   name:'Metronidazole (infus)', note:'Menutup bakteri anaerob; sesuai resep tim bedah.'},
+      {form:'tablet', name:'Paracetamol', note:'Untuk nyeri hanya atas arahan dokter — jangan menutupi gejala sebelum diperiksa.'},
+      {form:'hidup',  name:'Puasa sampai diperiksa', note:'Perut kosong memudahkan pemeriksaan dan anestesi bila harus dioperasi.'},
+    ],
+    remind:'Tes sederhana: batuk atau melompat kecil memicu nyeri kanan bawah → anggap darurat sampai terbukti bukan.',
+  },
+  saraf:{
+    name:'Penyakit Saraf (Neurologi)', icon:'activity', room:'atas', code:'L1-06', lv:'dokter', level:'Wajib dokter saraf', vessel:'bottle',
+    desc:'Kelompok penyakit sistem saraf: stroke, epilepsi, Parkinson, neuralgia, hingga neuropati. Obatnya sangat spesifik per diagnosis — jangan saling meminjam resep.',
+    signs:['Kejang / kesadaran hilang mendadak','Sisi tubuh lemah mendadak','Bicara pelo','Tangan gemetar / kaku','Kesemut kronis'],
+    sos:{text:'Tanda stroke — FAST: Face turun, Arm lemah, Speech pelo, Time ke IGD sekarang. Jangan menunggu "reda sendiri".', tel:'119'},
+    meds:[
+      {form:'tablet', name:'Carbamazepine', note:'Antikejang untuk epilepsi & neuralgia; wajib diminum rutin sesuai jadwal.'},
+      {form:'tablet', name:'Levetiracetam', note:'Antikejang modern dengan sedikit interaksi obat; dosis diatur dokter saraf.'},
+      {form:'tablet', name:'Citicoline', note:'Mendukung pemulihan fungsi saraf setelah stroke; pendamping rehabilitasi.'},
+      {form:'tablet', name:'Aspirin 80 mg', note:'Antiplatelet pencegahan stroke berulang; hanya dengan resep dan penilaian dokter.'},
+      {form:'terapi', name:'Terapi fisik & okupasi', note:'Melatih kembali fungsi tubuh setelah gangguan saraf; makin cepat dimulai, makin baik.'},
+    ],
+    remind:'Obat saraf tidak boleh berhenti mendadak — naik-turun dosis selalu digarap bersama dokter saraf.',
+  },
+  salmonella:{
+    name:'Demam Tifoid (Salmonella)', icon:'utensils', room:'atas', code:'L1-07', lv:'dokter', level:'Resep & kontrol', vessel:'bottle',
+    desc:'Infeksi bakteri Salmonella typhi lewat makanan/minuman tercemar. Demam naik bertahap berhari-hari dengan lidah berbulu dan perut kembung — beda dari flu yang mendadak.',
+    signs:['Demam naik bertahap > 3 hari','Lidah putih, ujungnya merah','Perut kembung / nyeri','Lemas berat','Nafsu makan hilang'],
+    meds:[
+      {form:'tablet', name:'Cefixime', note:'Antibiotik lini pertama tifoid ringan; resep dokter dan wajib dihabiskan.'},
+      {form:'kapsul', name:'Chloramphenicol', note:'Antibiotik klasik untuk tifoid; pemakaiannya diawasi ketat oleh dokter.'},
+      {form:'tablet', name:'Paracetamol', note:'Penurun demam tiap 6 jam; catat suhunya.'},
+      {form:'cair',   name:'Oralit / cairan elektrolit', note:'Mencegah dehidrasi saat demam dan kurang makan.'},
+      {form:'hidup',  name:'Makan lunak & istirahat total', note:'Bubur, sup, pisang; hindari serat kasar sampai usus pulih.'},
+    ],
+    remind:'Pencegahannya di dapur: cuci tangan, masak matang, minum air matang. Yang sembuh pun masih bisa menularkan — jaga higien.',
+  },
+  corona:{
+    name:'Virus Corona (SARS-CoV-2)', icon:'virus', room:'atas', code:'L1-08', lv:'dokter', level:'Siaga & isolasi', vessel:'vial',
+    desc:'COVID-19: infeksi virus corona varian baru yang menyerang saluran napas. Gejalanya menyerupai flu tetapi bisa berat, terutama pada lansia dan penderita penyakit penyerta.',
+    signs:['Demam & batuk kering','Hilang penciuman / perasa','Sesak napas','Lemas & nyeri otot'],
+    sos:{text:'Sesak napas, SpO₂ di bawah 94%, atau kesadaran menurun = segera ke IGD dengan masker rapat.', tel:'119'},
+    meds:[
+      {form:'suntik', name:'Vaksin COVID-19 (suntikan cair)', note:'Lindungan terbaik; perbarui dosis sesuai jadwal yang direkomendasikan.'},
+      {form:'tablet', name:'Molnupiravir / nirmatrelvir', note:'Antivirus untuk kasus ringan–sedang berisiko tinggi; resep ketat, dimulai ≤ 5 hari gejala.'},
+      {form:'tablet', name:'Paracetamol', note:'Demam & nyeri otot; jangan digandeng dengan obat flu lain yang juga berisi paracetamol.'},
+      {form:'cair',   name:'Oksigen medis', note:'Bila saturasi turun; dikelola oleh tenaga kesehatan, bukan alat sembarangan.'},
+      {form:'hidup',  name:'Isolasi & cairan hangat', note:'Isolasi 5 hari + 3 hari bebas gejala; buka jendela, jaga ventilasi ruangan.'},
+    ],
+    remind:'Tes antigen/PCR menentukan arah penanganan. Masker dan ventilasi masih menjadi "obat paling murah" untuk menahan penularan.',
+  },
+};
+
+/* ================= DATA: pos sampah ================= */
+const WASTE_ORDER = ['organik','b3','nonorganik','medis','nonmedis'];
+const WASTES = {
+  organik:{
+    name:'Sampah Organik', short:'Sampah Organik', logo:'recycle', paper:true,
+    band:'#1e7a34', ink:'#ffffff', txt:'#1e7a34', tint:'#e7f0e5', tag:'TONG HIJAU · BASAH',
+    ex:['Sisa makanan','Kulit buah','Sayur layu','Daun & ranting'],
+    desc:'Semua sisa makhluk hidup yang bisa membusuk. Dibiarkan tercampur plastik, ia menghasilkan gas metana di timbunan; dipilah sendiri, ia jadi pupuk kompos paling murah di dunia.',
+    dont:['Plastik kresek','Kaleng & kaca','Baterai'],
+    warn:null,
+    tip:'Pisahkan dari kantong plastik sejak di meja makan. Tumpuk di compost bin — 3–4 minggu jadi kompos; daun kering boleh langsung jadi mulsa pot.',
+  },
+  b3:{
+    name:'Sampah B3', short:'Sampah B3', logo:'recycle', paper:false,
+    band:'#d63b2f', ink:'#ffffff', txt:'#b22f24', tint:'#fae3de', tag:'TONG MERAH · BAHAYA',
+    ex:['Baterai','PCB & papan elektronik','Kabel','Lampu & neon bekas','Cairan pembersih','Kaleng spray'],
+    desc:'Bahan Berbahaya dan Beracun: mengandung logam berat atau zat kimia yang meresap ke tanah dan air. Satu baterai jam bisa mencemari sekitar 600 liter air tanah — setara satu bak mandi penuh.',
+    dont:['Sampah dapur','Dibakar di halaman','Dituang ke saluran air'],
+    warn:'Jangan dibakar, jangan ditumpuk di halaman, jangan dituang ke got. Kumpulkan dalam wadah tertutup berlabel "B3", lalu serahkan ke drop-off resmi (bank sampah / gerai ritel besar / titik kumpul B3).',
+    tip:'Simpan jauh dari jangkauan anak; kabel & papan elektronik bungkus kardus agar tidak melukai petugas kebersihan.',
+  },
+  nonorganik:{
+    name:'Sampah Non-Organik', short:'Sampah Non-Organik', logo:'recycle', paper:true,
+    band:'#f2c500', ink:'#1b1b1b', txt:'#8a6a00', tint:'#faf1d3', tag:'TONG KUNING · KERING',
+    ex:['Logam','Plastik','Kaca','Botol & kaleng','Kardus kering'],
+    desc:'Sampah kering yang tidak membusuk — kebanyakan bisa didaur ulang atau dijual. Ini "tabungan" di dalam sampah: bersih, kering, dan terpilah berarti lebih bernilai di bank sampah.',
+    dont:['Sisa makanan berminyak','Popok','Tisu kotor'],
+    warn:null,
+    tip:'Cuci bersih, keringkan, lalu pipihkan botol dan kardus. Kaleng & botol kaca simpan terpisah agar tidak pecah dan tidak menarik lalat.',
+  },
+  medis:{
+    name:'Sampah Medis', short:'Sampah Medis', logo:'biohazard', paper:false,
+    band:'#f2c500', ink:'#1b1b1b', txt:'#8a6a00', tint:'#faf1d3', tag:'KUNING · BIOHAZARD',
+    ex:['Jarum suntik','Perban & kapal luka','Infus bekas','Obat kedaluwarsa','Masker & alat tes bekas'],
+    desc:'Sampah yang menyentuh darah, cairan tubuh, atau obat. Ia bisa menularkan penyakit dan melukai petugas kebersihan — karena itu tidak boleh dicampur ke tong rumah tangga mana pun.',
+    dont:['Daur ulang','Sampah dapur','Dibakar di halaman'],
+    warn:'Masukkan jarum & benda tajam ke botol plastik keras bertutup rapat (tahan tusuk). Serahkan set lengkapnya ke puskesmas, RS, atau apotek dengan program ambil-kembali obat dan alat medis.',
+    tip:'Jangan kemas ulang bekas obat untuk dipakai lagi, dan jangan buang obat ke toilet — itu juga polutan air.',
+  },
+  nonmedis:{
+    name:'Sampah Non-Medis', short:'Sampah Non-Medis', logo:'person', paper:true,
+    band:'#1e7a34', ink:'#ffffff', txt:'#1e7a34', tint:'#e7f0e5', tag:'HIJAU · RUMAH TANGGA',
+    ex:['Tisu bekas','Popok sekali pakai','Pembalut','Sampah kamar mandi','Serbuk sapu'],
+    desc:'Sampah rumah tangga yang kotor tapi bukan medis: telah menyentuh tubuh dan kuman sehari-hari. Bungkus rapat sebelum masuk tong agar tidak mengundang lalat dan tidak menularkan kuman.',
+    dont:['Didaur ulang','Dicampur organik basah'],
+    warn:null,
+    tip:'Bungkus dengan kantong terpisah, ikat rapat, buang sesuai jadwal pengangkutan. Cuci tangan setelah menutup tong.',
+  },
+};
+
+/* ================= PABRIK IKON INTERNAL (tanpa CDN, logo pasti muncul) ================= */
+const ICONS = {
+  phone:'<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
+  copy:'<rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+  globe:'<circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
+  x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+  shield:'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>',
+  'shield-plus':'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 9v6"/><path d="M9 12h6"/>',
+  'shield-check':'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
+  pulse:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/>',
+  'heart-pulse':'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/>',
+  heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+  'heart-crack':'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="m8 9 3-3 2 2 3-3"/>',
+  flame:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
+  buoy:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/>',
+  zap:'<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>',
+  warn:'<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+  flask:'<path d="M10 2v7.5a2 2 0 0 1-.2.9L4.7 20.5a1 1 0 0 0 .9 1.5h12.8a1 1 0 0 0 .9-1.5L14.2 10.4a2 2 0 0 1-.2-.9V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/>',
+  'flask-conical':'<path d="M10 2v7.5a2 2 0 0 1-.2.9L4.7 20.5a1 1 0 0 0 .9 1.5h12.8a1 1 0 0 0 .9-1.5L14.2 10.4a2 2 0 0 1-.2-.9V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/>',
+  pill:'<path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/>',
+  droplets:'<path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05Z"/><path d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97"/>',
+  droplet:'<path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/>',
+  syringe:'<path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/>',
+  wind:'<path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1 1 11 8H2"/><path d="M12.6 19.4A2 2 0 1 0 14 16H2"/>',
+  stethoscope:'<path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6 6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6 6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/>',
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+  thermometer:'<path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/>',
+  'thermometer-sun':'<path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/><circle cx="19" cy="6.5" r="1.6"/><path d="M19 2.8v1"/><path d="M19 9.2v1"/><path d="M15.3 6.5h1"/><path d="M21.7 6.5h1"/>',
+  cloud:'<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>',
+  mic:'<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/>',
+  microscope:'<path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/>',
+  brain:'<path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/>',
+  bone:'<path d="M17 10c.7-.7 1.69 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .81.7 1.8 0 2.5l-7 7c-.7.7-1.69 0-2.5 0a2.5 2.5 0 0 0 0 5c.28 0 .5.22.5.5a2.5 2.5 0 1 0 5 0c0-.81-.7-1.8 0-2.5Z"/>',
+  siren:'<path d="M7 18v-6a5 5 0 1 1 10 0v6"/><path d="M5 21a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2Z"/><path d="M21 12h1"/><path d="M18.5 4.5 18 5"/><path d="M2 12h1"/><path d="M12 2v1"/><path d="m4.929 4.929.707.707"/><path d="M12 12v6"/>',
+  activity:'<path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/>',
+  utensils:'<path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>',
+  virus:'<circle cx="12" cy="12" r="5"/><path d="M12 2v3"/><path d="M12 19v3"/><path d="M2 12h3"/><path d="M19 12h3"/><path d="m4.9 4.9 2.1 2.1"/><path d="m17 17 2.1 2.1"/><path d="m4.9 19.1 2.1-2.1"/><path d="m17 7 2.1-2.1"/>',
+  bug:'<path d="m8 2 1.88 1.88"/><path d="M14.12 3.88 16 2"/><path d="M9 7.13v-1a3.003 3.003 0 1 1 6 0v1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6"/><path d="M12 20v-9"/><path d="M6.53 9C4.6 8.8 3 7.1 3 5"/><path d="M6 13H2"/><path d="M3 21c0-2.1 1.7-3.9 3.8-4"/><path d="M20.97 5c0 2.1-1.6 3.8-3.53 4"/><path d="M22 13h-4"/><path d="M17.2 17c2.1.1 3.8 1.9 3.8 4"/>',
+  recycle:'<path d="M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5"/><path d="M11 19h8.203a1.83 1.83 0 0 0 1.556-.89 1.784 1.784 0 0 0 0-1.775l-1.226-2.12"/><path d="m14 16-3 3 3 3"/><path d="M8.293 13.596 7.196 9.5 3.1 10.598"/><path d="m9.344 5.811 1.093-1.892A1.83 1.83 0 0 1 11.985 3a1.784 1.784 0 0 1 1.546.888l3.943 6.843"/><path d="m13.378 9.633 4.096 1.098 1.097-4.096"/>',
+  search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+  scale:'<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>',
+  smile:'<circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01"/><path d="M15 9h.01"/>',
+  plus:'<path d="M12 5v14"/><path d="M5 12h14"/>',
+  wifi:'<path d="M12 20h.01"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/><path d="M5 12.859a10 10 0 0 1 5.17-2.69"/><path d="M19 12.859a10 10 0 0 0-2.007-1.523"/><path d="M2 8.82a15 15 0 0 1 4.177-2.643"/><path d="M22 8.82a15 15 0 0 0-11.288-3.764"/><path d="m2 2 20 20"/>',
+  msg:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+  del:'<path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/><line x1="18" y1="9" x2="12" y2="15"/><line x1="12" y1="9" x2="18" y2="15"/>',
+  send:'<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',
+  vol:'<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>',
+  volx:'<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>',
+  info:'<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+  mail:'<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+  check:'<path d="M20 6 9 17l-5-5"/>',
+  trash:'<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',
+  broom:'<path d="m19.36 2.72-1.57 6.02"/><path d="M11.5 9.5 4.7 16.3a2.4 2.4 0 0 0 0 3.4l0 0a2.4 2.4 0 0 0 3.4 0L14.9 12.9"/><path d="M15 9 9 15"/><path d="M13.4 3.4 20.6 10.6"/>',
+  leaf:'<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>',
+};
+function svg(name){
+  const body = ICONS[name] || ICONS.info;
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
+}
+const LOGOS = {
+  recycle:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS.recycle}</svg>`,
+  biohazard:`<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><circle cx="12" cy="12" r="1.8"/><path d="M12 12C10.5 10.3 9.9 8.1 10.7 6.2c.4-.9 2.2-.9 2.6 0 .8 1.9.2 4.1-1.3 5.8Z"/><path d="M12 12C10.5 10.3 9.9 8.1 10.7 6.2c.4-.9 2.2-.9 2.6 0 .8 1.9.2 4.1-1.3 5.8Z" transform="rotate(120 12 12)"/><path d="M12 12C10.5 10.3 9.9 8.1 10.7 6.2c.4-.9 2.2-.9 2.6 0 .8 1.9.2 4.1-1.3 5.8Z" transform="rotate(240 12 12)"/></g></svg>`,
+  person:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="4.4" r="1.9"/><path d="M7.2 6.9c-1.1.9-1.4 2.1-1 3.4l.9 2.6"/><path d="M7.1 12.9 5.9 19"/><path d="M7.1 12.9 9.2 19"/><path d="M8 8.4l4.4 2.2"/><path d="M12.9 8.9l1.7-.8.8 1.7-1.7.8z" fill="currentColor" stroke="none"/><path d="M13.5 12.5h6.4l-.9 6.7h-4.6z"/><path d="M12.8 12.5h7.8"/></svg>`,
+};
+
+/* ================= TELEPON DARURAT ================= */
+const TEL_GROUPS = [
+  {title:'Layanan darurat umum', items:[
+    {n:'Polisi', d:'Kriminal, kecelakaan, permintaan bantuan keamanan', num:'110', tel:'110', web:'https://www.polri.go.id', wl:'polri.go.id', ic:'shield', tag:'Gratis · 24 jam'},
+    {n:'Ambulans / Gawat Darurat Medis', d:'Ambulans & konsultasi medis mendesak (PSC 119 — Kemenkes)', num:'119', tel:'119', web:'https://kemkes.go.id', wl:'kemkes.go.id', ic:'pulse', tag:'Gratis · 24 jam'},
+    {n:'Layanan Darurat Medis Nasional', d:'Saluran ambulans alternatif yang tersambung jaringan PSC', num:'118', tel:'118', web:'https://kemkes.go.id', wl:'kemkes.go.id', ic:'pulse', tag:'Gratis · 24 jam'},
+    {n:'Pemadam Kebakaran (Damkar)', d:'Kebakaran rumah, penyelamatan, evakuasi', num:'113', tel:'113', web:'https://bnpb.go.id', wl:'bnpb.go.id', ic:'flame', tag:'Gratis · 24 jam'},
+    {n:'SAR / BASARNAS', d:'Pencarian & pertolongan di gunung, laut, dan bencana', num:'115', tel:'115', web:'https://basarnas.go.id', wl:'basarnas.go.id', ic:'buoy', tag:'Gratis · 24 jam'},
+    {n:'PLN — Gangguan Listrik', d:'Kabel putus, tiang roboh, hubungan arus pendek', num:'123', tel:'123', web:'https://web.pln.co.id', wl:'web.pln.co.id', ic:'zap', tag:'24 jam'},
+    {n:'BNPB — Call Center Bencana', d:'Kantor pusat penanggulangan bencana nasional', num:'117', tel:'117', web:'https://bnpb.go.id', wl:'bnpb.go.id', ic:'warn'},
+    {n:'Pusat Informasi Keracunan — BPOM', d:'Keracunan makanan, obat, kosmetik, dan minuman', num:'1500-533', tel:'1500533', web:'https://www.pom.go.id', wl:'pom.go.id', ic:'flask'},
+    {n:'Palang Merah Indonesia (PMI)', d:'Donor darah darurat & bantuan kemanusiaan', num:'021-7992325', tel:'+62217992325', web:'https://www.pmi.or.id', wl:'pmi.or.id', ic:'plus'},
+  ]},
+  {title:'Perlindungan & tindak kekerasan', items:[
+    {n:'SAPA 129 — Posko Pengaduan Cepat', d:'Pengaduan perlindungan perempuan & anak (KemenPPPA)', num:'129', tel:'129', web:'https://kekerasan.kemenpppa.go.id', wl:'kekerasan.kemenpppa.go.id', ic:'warn', tag:'Perempuan & anak'},
+    {n:'Komnas Perempuan', d:'Pengaduan kekerasan terhadap perempuan', num:'021-3903963', tel:'+62213903963', web:'https://komnasperempuan.go.id', wl:'komnasperempuan.go.id', ic:'heart'},
+    {n:'Komnas HAM', d:'Pengaduan pelanggaran hak asasi manusia', num:'021-3925230', tel:'+62213925230', web:'https://www.komnasham.go.id', wl:'komnasham.go.id', ic:'scale'},
+    {n:'KPAI — Perlindungan Anak Indonesia', d:'Kekerasan dan pelanggaran hak anak', num:'021-31901556', tel:'+622131901556', web:'https://www.kpai.go.id', wl:'kpai.go.id', ic:'smile', tag:'Khusus anak'},
+  ]},
+];
+const TPLS = [
+  {label:'Tolong segera', text:'TOLONG. Saya butuh bantuan SEGERA di [alamat]. Keadaan darurat: [medis / kebakaran / kecelakaan]. Mohon tim dikirim.'},
+  {label:'Saksikan kecelakaan', text:'Halo, saya menyaksikan kecelakaan di [lokasi]. Ada korban [jumlah] yang butuh pertolongan. Mohon ambulans & polisi dikirim.'},
+  {label:'Mohon perlindungan', text:'Mohon bantuan perlindungan. Saya sedang dalam situasi tidak aman di [lokasi]. Tolong hubungi saya kembali.'},
+  {label:'Info keracunan', text:'Informasi keracunan: [nama/keluarga] menelan [benda/obat] sekitar pukul [jam]. Mohon petunjuk pertolongan pertama.'},
+  {label:'Lapor bencana', text:'Laporan: terjadi [banjir/longsor/kebakaran] di [lokasi]. Warga [jumlah] membutuhkan evakuasi. Mohon respon BNPB/SAR.'},
+];
+
+/* ================= STATE & ELEMEN ================= */
+const ROOM_MAP = Object.fromEntries(ROOMS.map(r=>[r.id,r]));
+const FLAT_TEL = TEL_GROUPS.flatMap(g=>g.items);
+const $ = id => document.getElementById(id);
+const cabinet=$('cabinet'), rcWrap=$('rcWrap'), rcSheet=$('rcSheet'),
+      telWrap=$('telWrap'), telSheet=$('telSheet'), phonePole=$('phonePole'),
+      posWrap=$('posWrap'), posSheet=$('posSheet'), postBox=$('postBox'),
+      ixWrap=$('ixWrap'), ixBody=$('ixBody'), ixSearch=$('ixSearch'),
+      condOverlay=$('condOverlay'), condSheet=$('condSheet'), toastEl=$('toast');
+let activeRoom=null, curWaste=null;
+let padVal='', smsVal='', destVal='', sndOn=true;
+let lastOk={room:'atas', cid:null};
+
+const norm = s => (s||'').replace(/\D/g,'');
+const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+const cellEl = id => document.querySelector('.cell--'+id) || document.querySelector('.cell--front');
+
+/* PERBAIKAN LOGO: semua <i data-lucide> ditukar ke ikon internal —
+   tidak bergantung CDN, jadi logo tidak pernah hilang lagi */
+const refreshIcons = () => {
+  document.querySelectorAll('i[data-lucide]').forEach(el=>{
+    el.outerHTML = svg(el.getAttribute('data-lucide'));
+  });
+};
+
+/* ================= POS SURAT: penyimpanan ================= */
+function loadLetters(){ try{ return JSON.parse(localStorage.getItem('lemariPosSurat')||'[]'); }catch(e){ return []; } }
+function saveLetters(){ try{ localStorage.setItem('lemariPosSurat', JSON.stringify(letters)); }catch(e){} }
+let letters = loadLetters();
+
+function targetRoom(id){
+  const r = ROOM_MAP[id];
+  return (r && r.conds) ? r : ROOM_MAP['atas'];
+}
+function registerLetter(L){
+  const cid = 'pos-' + L.id;
+  const r = targetRoom(L.room);
+  if(!r.conds.includes(cid)) r.conds.push(cid);
+  const n = r.conds.filter(c => c !== cid).length + 1;
+  CONDS[cid] = {
+    name:L.name, icon:'mail', room:r.id, code:r.code + '-' + String(n).padStart(2,'0'),
+    lv:'rawat', level:'Kiriman pos · belum diverifikasi',
+    vessel: MED_VESSEL[L.meds && L.meds[0] && L.meds[0].form] || 'box',
+    desc: L.desc || ('Dikirim lewat Pos Surat oleh ' + (L.sender || 'keluarga') +
+      '. Isi surat ini otomatis masuk ke lemari meski hanya berupa kertas — lengkapi setelah konsultasi dokter.'),
+    signs: (L.signs && L.signs.length) ? L.signs : ['Menurut keterangan surat'],
+    meds: (L.meds && L.meds.length) ? L.meds :
+      [{form:'terapi', name:'Konsultasi ke dokter', note:'Surat belum mencantumkan obat; lengkapi bersama tenaga kesehatan.'}],
+    remind: L.remind || 'Surat ini masuk otomatis dari pos. Periksa ulang dosis dan kebenarannya bersama dokter/apoteker.',
+  };
+  return cid;
+}
+function unregisterLetter(L){
+  const cid = 'pos-' + L.id;
+  delete CONDS[cid];
+  const r = targetRoom(L.room);
+  r.conds = r.conds.filter(c => c !== cid);
+}
+function updatePosCount(){ $('posCount').textContent = letters.length; }
+
+/* ================= SAMPAH: state, kirim, olah ================= */
+function loadWaste(){
+  try{ return JSON.parse(localStorage.getItem('lemariSampah')); }catch(e){ return null; }
+}
+const WASTE_STATE = loadWaste() || {
+  bins:{khusus:1, darurat:1, kamar1:2, kamar2:1, tamu:2, umum:2, dapur:3, atas:2, tengah:1},
+  teras:{organik:0, b3:0, nonorganik:0, medis:0, nonmedis:0},
+  hasil:{kompos:0, kertas:0},
+};
+function saveWaste(){ try{ localStorage.setItem('lemariSampah', JSON.stringify(WASTE_STATE)); }catch(e){} }
+const binOf  = id => WASTE_STATE.bins[id] || 0;
+const tongOf = wid => WASTE_STATE.teras[wid] || 0;
+const terasTotal = () => Object.values(WASTE_STATE.teras).reduce((a,b)=>a+b,0);
+
+function collectRoom(id){
+  const n = binOf(id);
+  if(!n){ toast('Tong ruangan ini sudah kosong'); return; }
+  const type = ROOM_WASTE[id] || 'nonmedis';
+  WASTE_STATE.teras[type] += n;
+  WASTE_STATE.bins[id] = 0;
+  saveWaste(); refreshWasteUI();
+  toast(n + ' karung dikirim ke Teras → tong ' + WASTES[type].name);
+  setTimeout(()=>{ openRoom('luar'); }, 700);
+}
+function cleanTong(wid){
+  const n = tongOf(wid);
+  const w = WASTES[wid];
+  if(!n){ toast('Tong ' + w.name + ' sudah bersih'); return; }
+  let msg;
+  if(wid==='organik'){ WASTE_STATE.hasil.kompos += n; msg = n + ' karung diolah jadi ' + n + ' kompos — siap untuk pot & kebun'; }
+  else if(wid==='nonorganik'){ msg = n + ' karung disortir ulang: logam, plastik & kaca siap diantar bank sampah'; }
+  else if(wid==='nonmedis'){ msg = n + ' karung dibungkus rapat & dibuang sesuai jadwal pengangkutan'; }
+  else if(wid==='b3'){ msg = n + ' karung B3 disegel & siap diserahkan ke drop-off resmi — jangan dibakar'; }
+  else { msg = n + ' karung medis disegel & siap disetor ke puskesmas / apotek'; }
+  WASTE_STATE.teras[wid] = 0;
+  saveWaste(); refreshWasteUI();
+  showWasteResult(msg);
+  toast(msg);
+}
+function paperTong(wid){
+  const n = tongOf(wid);
+  const w = WASTES[wid];
+  if(!w.paper){ toast('Tong ' + w.name + ' tidak bisa dijadi kertas — wajib jalur resmi'); return; }
+  if(!n){ toast('Tongnya kosong — tidak ada yang bisa diurai'); return; }
+  const lembar = wid==='nonmedis' ? Math.max(1, Math.ceil(n/2)) : n;
+  WASTE_STATE.hasil.kertas += lembar;
+  WASTE_STATE.teras[wid] = 0;
+  saveWaste(); refreshWasteUI();
+  const msg = lembar + ' lembar kertas baru jadi! (' + n + ' karung ' + w.name.toLowerCase() + ' diurai seratnya)';
+  showWasteResult(msg);
+  toast(msg);
+}
+function cleanAllTong(){
+  const total = terasTotal();
+  if(!total){ toast('Semua tong di teras sudah bersih'); return; }
+  WASTE_ORDER.forEach(wid=>{
+    const n = tongOf(wid);
+    if(!n) return;
+    if(wid==='organik') WASTE_STATE.hasil.kompos += n;
+    WASTE_STATE.teras[wid] = 0;
+  });
+  saveWaste(); refreshWasteUI();
+  const msg = total + ' karung selesai diolah — semua tong di teras bersih';
+  showWasteResult(msg);
+  toast(msg);
+}
+function showWasteResult(msg){
+  const r = $('wRes');
+  if(r){ r.textContent = msg; r.classList.add('on'); }
+}
+function updateTerasBadge(){
+  const b = $('terasBadge');
+  if(!b) return;
+  const total = terasTotal();
+  if(total > 0){ b.innerHTML = svg('trash') + total; b.style.display = ''; }
+  else b.style.display = 'none';
+}
+function refreshWasteUI(){
+  renderCabinet(false);
+  renderWasteRow();
+  updateTerasBadge();
+  if(rcWrap.classList.contains('on') && activeRoom) renderRoomSheet(activeRoom);
+  if(condOverlay.classList.contains('on') && curWaste) renderWasteSheet(curWaste);
+}
+
+/* ================= NADA DTMF ================= */
+const DTMF={'1':[697,1209],'2':[697,1336],'3':[697,1477],'4':[770,1209],'5':[770,1336],'6':[770,1477],
+            '7':[852,1209],'8':[852,1336],'9':[852,1477],'*':[941,1209],'0':[941,1336],'#':[941,1477]};
+let audioCtx=null;
+function beep(key){
+  if(!sndOn) return;
+  try{
+    audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)();
+    if(audioCtx.state==='suspended') audioCtx.resume();
+    const f = DTMF[key] || [941,1336], t = audioCtx.currentTime;
+    const g = audioCtx.createGain();
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(0.05,t+0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+0.15);
+    g.connect(audioCtx.destination);
+    f.forEach(fr=>{ const o=audioCtx.createOscillator(); o.type='sine'; o.frequency.value=fr; o.connect(g); o.start(t); o.stop(t+0.16); });
+  }catch(e){}
+}
+
+/* ================= RENDER LEMARI ================= */
+function cellHTML(r){
+  let shelves;
+  if(r.drawer){
+    const items = r.conds.map((cid,i)=>{
+      const c = CONDS[cid];
+      return `<button class="bottle b-${c.vessel}" data-cond="${cid}" style="--d:${(0.18+i*0.07).toFixed(2)}s"
+                     title="${c.name} — rak ${c.code}" aria-label="Buka petunjuk ${c.name}">
+                <span class="cap"></span><span class="bod"></span><span class="bcode">${c.code}</span>
+              </button>`;
+    }).join('');
+    shelves = `<div class="shelf" style="--d:.18s">${items}</div>`;
+  } else {
+    shelves = r.conds.map((cid,i)=>{
+      const c = CONDS[cid];
+      return `<div class="shelf" style="--d:${(0.22+i*0.09).toFixed(2)}s">
+        <button class="bottle b-${c.vessel}" data-cond="${cid}" title="${c.name} — rak ${c.code}" aria-label="Buka petunjuk ${c.name}">
+          <span class="cap"></span><span class="bod"></span>
+        </button>
+        <span class="sh-plate">${c.code}</span>
+      </div>`;
+    }).join('');
+  }
+  const first = CONDS[r.conds[0]];
+  const nbin = binOf(r.id);
+  return `<div class="cell cell--${r.id}">
+    <div class="glow"></div>
+    <div class="shelves">${shelves}</div>
+    <button class="door ${r.drawer?'door--drawer':''}" data-room="${r.id}" aria-label="Buka ${r.name}">
+      <span class="door-front">
+        <span class="plate">
+          <span class="pc">${r.code} · RAK</span>
+          <span class="pn">${r.name}</span>
+          <span class="ps">${r.sub}</span>
+        </span>
+        <span class="door-ico"><i data-lucide="${first.icon}"></i></span>
+        ${nbin ? `<span class="dbin">${svg('trash')}${nbin}</span>` : ''}
+        <span class="knob"></span>
+        ${r.id==='darurat' ? '<span class="alarm"></span><span class="ribbon">Darurat</span>' : ''}
+      </span>
+      <span class="door-back"><span class="bp">${r.code}</span></span>
+    </button>
+  </div>`;
+}
+function renderCabinet(peek=true){
+  cabinet.innerHTML = ROOMS.filter(r=>r.id!=='luar').map(cellHTML).join('');
+  if(activeRoom && activeRoom!=='luar') cellEl(activeRoom).classList.add('open');
+  refreshIcons();
+  if(peek){
+    document.querySelectorAll('.cell').forEach((c,i)=>{
+      setTimeout(()=>{ c.classList.add('peek'); setTimeout(()=>c.classList.remove('peek'), 620); }, 300 + i*110);
+    });
+  }
+}
+
+/* ================= POS SAMPAH: deretan tong teras ================= */
+function renderWasteRow(){
+  const row = $('wasteRow');
+  row.innerHTML = `<span class="whead">PILAH · 5 TONG</span>` + WASTE_ORDER.map((wid,i)=>{
+    const w = WASTES[wid];
+    const n = tongOf(wid);
+    return `<button class="wbin ${i===WASTE_ORDER.length-1?'wbin--last':''}" data-waste="${wid}"
+                   title="${w.name} — ${w.tag}${n?' · '+n+' karung':''}" aria-label="Buka petunjuk ${w.name}">
+      <span class="sign">
+        <span class="band" style="background:${w.band};color:${w.ink}">${LOGOS[w.logo]}</span>
+        ${n ? `<span class="wcnt">${n}</span>` : ''}
+        <span class="nm">${w.short}</span>
+      </span>
+      <span class="lid" style="background:${w.band}"></span>
+      <span class="can" style="background:${w.band}"></span>
+    </button>`;
+  }).join('');
+}
+function wasteRowCard(wid){
+  const w = WASTES[wid];
+  const n = tongOf(wid);
+  return `<button class="rc-row" data-waste="${wid}">
+    <span class="rc-ico" style="background:${w.tint};border-color:${w.txt};color:${w.txt}">${LOGOS[w.logo]}</span>
+    <span class="rc-name"><b>${w.name}</b><small>${w.ex.slice(0,4).join(' · ')}${n?' · '+n+' karung':''}</small></span>
+    <span class="rc-dot" style="background:${w.band}"></span><span class="rc-chv">›</span>
+  </button>`;
+}
+
+/* ================= KARTU RAK ================= */
+function wasteStripHTML(r){
+  if(!r.conds) return '';
+  const n = binOf(r.id);
+  const type = WASTES[ROOM_WASTE[r.id] || 'nonmedis'];
+  return `<div class="waste-strip">
+    <span class="ws-ico">${svg('trash')}</span>
+    <span class="ws-info"><b>Tempat sampah ruangan · ${n} karung</b>
+      <small>${type.name} — dikirim langsung ke Pos Pilah di Teras</small></span>
+    <button class="ws-btn" data-kirim="${r.id}" ${n?'':'disabled'}>Kirim ke Teras</button>
+  </div>`;
+}
+
+function renderRoomSheet(id, hl){
+  const r = ROOM_MAP[id];
+  let rows = '', extra = '';
+  if(r.wastes){
+    extra = `<div class="wsummary">
+      <b>Isi pos pilah:</b>
+      <span class="ws-chip">${terasTotal()} karung menunggu</span>
+      <span class="ws-chip">${svg('leaf')} ${WASTE_STATE.hasil.kompos} kompos</span>
+      <span class="ws-chip">${WASTE_STATE.hasil.kertas} lembar kertas baru</span>
+      <button class="ws-all" data-wall="1">${svg('broom')} Bersihkan semua tong</button>
+    </div>`;
+    rows = r.wastes.map(wasteRowCard).join('');
+  } else {
+    rows = r.conds.map(cid=>{
+      const c = CONDS[cid];
+      return `<button class="rc-row ${hl===cid?'hl':''}" data-cond="${cid}">
+        <span class="rc-ico">${svg(c.icon)}</span>
+        <span class="rc-name"><b>${c.name}</b><small>${c.meds.length} kemasan · ${c.level}</small></span>
+        <span class="rc-rak">${c.code}</span>
+        <span class="rc-chv">›</span>
+      </button>`;
+    }).join('');
+    extra = wasteStripHTML(r);
+  }
+  rcSheet.innerHTML = `
+    <header class="rc-head">
+      <span class="rc-code">${r.code}</span>
+      <div><h3>${r.name}</h3><p>${r.sub}</p></div>
+      <button class="xbtn" data-close="1" aria-label="Tutup kartu rak">${svg('x')}</button>
+    </header>
+    <div class="rc-rows">${rows}</div>
+    ${extra}
+    <footer class="rc-foot">${r.note}</footer>`;
+  refreshIcons();
+}
+
+/* ================= DETAIL KONDISI ================= */
+function renderCondSheet(cid){
+  const c = CONDS[cid], r = ROOM_MAP[c.room];
+  const isPos = cid.startsWith('pos-');
+  condSheet.innerHTML = `
+    <button class="chip-back" data-back="1">‹ Kartu rak ${r.code} · ${r.name}</button>
+    <button class="xbtn" data-closeall="1" aria-label="Tutup semua">${svg('x')}</button>
+    <div class="cond-head">
+      <span class="cond-ico">${svg(c.icon)}</span>
+      <div>
+        <div class="cond-kicker">${r.name} · Rak ${c.code}</div>
+        <h2>${c.name}</h2>
+      </div>
+      <span class="badge lv-${c.lv}">${c.level}</span>
+    </div>
+    <p class="desc">${c.desc}</p>
+    <div class="signs"><span class="lbl">Tanda yang umum</span><div>${c.signs.map(s=>`<span class="chip">${s}</span>`).join('')}</div></div>
+    ${c.sos ? `<div class="firstaid">${svg('warn')}<p>${c.sos.text}</p>${c.sos.tel?`<a class="sosbtn" href="tel:${c.sos.tel}">Telepon ${c.sos.tel}</a>`:''}</div>` : ''}
+    <h3 class="sec">Obat &amp; bentuk sediaan <small>${c.meds.length} KEMASAN</small></h3>
+    <ul class="meds">
+      ${c.meds.map(m=>{
+        const s = SHAPES[m.form] || SHAPES.tablet;
+        return `<li><span class="shape sh-${m.form}">${svg(s.icon)}${s.label}</span>
+                <div class="med-main"><b>${m.name}</b><span>${m.note||''}</span></div></li>`;
+      }).join('')}
+    </ul>
+    ${c.cross ? `<button class="cross" data-cross="${c.cross.id}">Buka juga · <b>${CONDS[c.cross.id].name}</b> — ${c.cross.text}</button>` : ''}
+    <div class="remind">${svg('info')}<p>${c.remind}</p></div>
+    <div class="disc"><span class="stamp">${isPos?'KIRIMAN POS · PERLU CEK':'EDUKASI · BUKAN RESEP'}</span>
+      <p>${isPos ? 'Formula ini masuk lewat Pos Surat dan belum diverifikasi. Cocokkan isinya dengan dokter, apoteker, atau petugas kesehatan sebelum dipraktikkan.'
+                 : 'Isi lemari ini adalah ringkasan edukasi rumah tangga. Dosis dan keputusan pengobatan selalu milik dokter, apoteker, atau petugas kesehatan terdekat.'}</p>
+    </div>`;
+  refreshIcons();
+}
+
+/* ================= DETAIL TONG SAMPAH ================= */
+function renderWasteSheet(wid){
+  const w = WASTES[wid];
+  curWaste = wid;
+  const n = tongOf(wid);
+  condSheet.innerHTML = `
+    <button class="chip-back" data-back="1">‹ Kartu rak O · Luar Rumah</button>
+    <button class="xbtn" data-closeall="1" aria-label="Tutup semua">${svg('x')}</button>
+    <div class="cond-head">
+      <span class="cond-ico" style="background:${w.band};color:${w.ink}">${LOGOS[w.logo]}</span>
+      <div>
+        <div class="cond-kicker">Luar Rumah · Pos Sampah</div>
+        <h2>${w.name}</h2>
+      </div>
+      <span class="badge" style="color:${w.txt};border-color:${w.txt};background:${w.tint}">${w.tag}</span>
+    </div>
+    <p class="desc">${w.desc}</p>
+    <div class="signs"><span class="lbl">Yang benar dibuang di sini</span>
+      <div>${w.ex.map(s=>`<span class="chip">${s}</span>`).join('')}</div></div>
+    <div class="signs"><span class="lbl">Jangan dibuang di sini</span>
+      <div>${w.dont.map(s=>`<span class="chip chip-no">${s}</span>`).join('')}</div></div>
+    ${w.warn ? `<div class="firstaid">${svg('warn')}<p>${w.warn}</p></div>` : ''}
+
+    <div class="wact">
+      <button class="chipbtn go" data-wclean="${wid}" ${n?'':'disabled'}>${svg('broom')} Bersihkan tong (${n})</button>
+      ${w.paper
+        ? `<button class="chipbtn" data-wpaper="${wid}" ${n?'':'disabled'}>${svg('leaf')} Uraikan jadi kertas baru (${n})</button>`
+        : `<span class="woff">Tidak bisa jadi kertas di rumah — wajib diserahkan lewat jalur resmi</span>`}
+    </div>
+    <div class="wres" id="wRes"></div>
+
+    <div class="remind">${svg('info')}<p>${w.tip}</p></div>
+    <div class="disc"><span class="stamp">PILAH DARI RUMAH</span>
+      <p>Alur rumah ini: tong ruangan → dikirim ke Pos Pilah di Teras → dibersihkan (kompos / bank sampah / disetor resmi)
+      atau diurai jadi kertas baru — supaya sampah tak menumpuk di dalam rumah.</p>
+    </div>`;
+  refreshIcons();
+}
+
+/* ================= PANEL POS SURAT ================= */
+function medRowHTML(form='', name='', note=''){
+  const opts = Object.entries(SHAPES).map(([k,s])=>`<option value="${k}" ${k===form?'selected':''}>${s.label}</option>`).join('');
+  return `<div class="medrow">
+    <select class="f-in" data-pform>${opts}</select>
+    <input class="f-in" data-pname placeholder="Nama obat (mis. Paracetamol)" value="${name}">
+    <input class="f-in" data-pnote placeholder="Catatan singkat (dosis/waktu)" value="${note}">
+    <button type="button" class="mrowdel" data-delrow title="Hapus baris" aria-label="Hapus baris obat">${svg('x')}</button>
+  </div>`;
+}
+function addMedRow(form,name,note){
+  $('medRows').insertAdjacentHTML('beforeend', medRowHTML(form,name,note));
+}
+function sentRowsHTML(){
+  if(!letters.length) return `<p class="sent-empty">Belum ada surat terkirim. Tulis formula pertamamu di atas.</p>`;
+  return letters.slice().reverse().map(L=>{
+    const r=targetRoom(L.room);
+    const d=new Date(L.ts).toLocaleDateString('id-ID',{day:'numeric',month:'short'});
+    return `<div class="tel-row">
+      <span class="tel-ico" style="background:#efe9f5;border-color:#c9bfe0;color:#5b4a8a">${svg('mail')}</span>
+      <span class="tel-info"><b>${L.name}</b>
+        <small>${r.code} · ${r.name} · ${d} · ${L.meds.length} kemasan${L.sender?' · dari '+L.sender:''}</small></span>
+      <span class="tel-actions">
+        <button class="sqbtn" data-openpos="${L.id}" title="Buka petunjuknya" aria-label="Buka ${L.name}">${svg('send')}</button>
+        <button class="sqbtn" data-delpost="${L.id}" title="Hapus surat & tarik dari rak" aria-label="Hapus ${L.name}">${svg('trash')}</button>
+      </span>
+    </div>`;
+  }).join('');
+}
+function renderPosSheet(mode, ok){
+  const roomOpts = ROOMS.filter(r=>r.conds)
+    .map(r=>`<option value="${r.id}" ${r.id==='atas'?'selected':''}>${r.code} · ${r.name}</option>`).join('');
+  const formHTML = `
+    <div class="pos-form">
+      <div class="frow">
+        <div><label class="f-lbl" for="pName">Nama penyakit / keluhan *</label>
+          <input class="f-in" id="pName" placeholder="mis. Panas dalam"></div>
+        <div><label class="f-lbl" for="pRoom">Tujuan rak</label>
+          <select class="f-in" id="pRoom">${roomOpts}</select></div>
+      </div>
+      <div class="frow frow--1">
+        <div><label class="f-lbl" for="pDesc">Ringkasan</label>
+          <textarea class="f-in" id="pDesc" placeholder="Ceritakan singkat penyebab & sifatnya…"></textarea></div>
+      </div>
+      <div class="frow frow--1">
+        <div><label class="f-lbl" for="pSigns">Tanda-tanda (pisahkan dengan koma)</label>
+          <input class="f-in" id="pSigns" placeholder="mis. demam, lemas, nafsu makan hilang"></div>
+      </div>
+      <label class="f-lbl" style="margin:2px 0 6px">Daftar obat · nama + bentuk sediaan</label>
+      <div id="medRows"></div>
+      <button type="button" class="addmed" data-addmed>+ Tambah baris obat</button>
+      <div class="frow" style="margin-top:10px">
+        <div><label class="f-lbl" for="pRemind">Pengingat keselamatan</label>
+          <input class="f-in" id="pRemind" placeholder="mis. jangan diminum bersama susu"></div>
+        <div><label class="f-lbl" for="pSender">Nama pengirim</label>
+          <input class="f-in" id="pSender" placeholder="opsional"></div>
+      </div>
+      <div class="pos-actions">
+        <button type="button" class="pos-send" data-possend>${svg('send')}Masukkan ke pos</button>
+        <button type="button" class="pos-clear" data-posclear>Kosongkan</button>
+      </div>
+      <p class="pos-note">Begitu disorot ke lubang pos, formulamu <b>otomatis terdaftar ke lemari</b> sesuai rak tujuan:
+      botol barunya muncul di rak, kartunya masuk indeks pencarian, dan tersimpan permanen di perangkat ini.
+      Amplop bekasnya pun otomatis masuk <b>tong non-organik di Teras</b> — tidak menumpuk di rumah.</p>
+    </div>`;
+  const okHTML = ok ? `
+    <div class="pos-ok">
+      ${svg('check')}
+      <div>
+        <h4>Surat masuk pos!</h4>
+        <p>“${ok.name}” otomatis tersortir ke <b>${targetRoom(ok.room).name}</b> — rak sudah diperbarui,
+        botolnya sudah berdiri di sana. Amplop bekasnya ikut masuk tong non-organik di Teras.</p>
+        <div class="btnrow">
+          <button type="button" class="chipbtn" data-seeroom="${lastOk.room}">Lihat raknya sekarang</button>
+          <button type="button" class="chipbtn" data-again>Tulis surat lagi</button>
+        </div>
+      </div>
+    </div>` : '';
+  posSheet.innerHTML = `
+    <header class="rc-head">
+      <span class="rc-code pos-code">${svg('mail')}</span>
+      <div><h3>Pos Surat · Formula Baru</h3><p>Tulis di surat, masukkan ke pos — otomatis masuk lemari</p></div>
+      <button class="xbtn" data-close-pos="1" aria-label="Tutup pos surat">${svg('x')}</button>
+    </header>
+    <div class="remind tel-note">${svg('wifi')}<p><b>Pos surat merah berdiri</b> di samping rumah, seperti kotak surat POS.
+    Setiap amplop yang masuk langsung disortir otomatis ke rak pilihanmu — tanpa perlu menyunting kode apa pun.</p></div>
+    ${okHTML}
+    ${mode==='ok' ? '' : formHTML}
+    <div class="sent-head">Surat terkirim · <span id="sentCount">${letters.length}</span></div>
+    <div class="sent-rows tel-rows" id="sentRows">${sentRowsHTML()}</div>`;
+  if(mode!=='ok'){
+    addMedRow(); addMedRow();
+  }
+  refreshIcons();
+}
+function submitPos(){
+  const name = ($('pName').value||'').trim();
+  if(!name){ toast('Nama penyakitnya diisi dulu ya — surat tanpa nama tidak bisa disortir'); $('pName').focus(); return; }
+  const room = $('pRoom').value;
+  const desc = ($('pDesc').value||'').trim();
+  const signs = ($('pSigns').value||'').split(',').map(s=>s.trim()).filter(Boolean).slice(0,8);
+  const remind = ($('pRemind').value||'').trim();
+  const sender = ($('pSender').value||'').trim();
+  const meds = [];
+  $('medRows').querySelectorAll('.medrow').forEach(row=>{
+    const nm=(row.querySelector('[data-pname]').value||'').trim();
+    if(!nm) return;
+    meds.push({form:row.querySelector('[data-pform]').value, name:nm,
+               note:(row.querySelector('[data-pnote]').value||'').trim()});
+  });
+  const slug = name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,24) || 'formula';
+  const L = {id:slug+'-'+Date.now().toString(36), name, room, desc, signs, meds, remind, sender, ts:Date.now()};
+  letters.push(L); saveLetters();
+  const cid = registerLetter(L);
+  renderCabinet(false); updatePosCount(); updateStats();
+  WASTE_STATE.teras.nonorganik += 1;
+  saveWaste(); renderWasteRow(); updateTerasBadge();
+  postBox.classList.remove('mail-in'); void postBox.offsetWidth; postBox.classList.add('mail-in');
+  lastOk = {room:targetRoom(room).id, cid};
+  renderPosSheet('ok', {name, room});
+  toast('Surat masuk — tersortir ke ' + targetRoom(room).name + ' · amplop masuk tong Teras');
+  setTimeout(()=>{ openRoom(lastOk.room, cid); }, 1700);
+}
+function deletePos(id){
+  const L = letters.find(x=>x.id===id);
+  if(!L) return;
+  letters = letters.filter(x=>x.id!==id);
+  unregisterLetter(L); saveLetters();
+  WASTE_STATE.teras.nonorganik += 1;
+  saveWaste(); renderWasteRow(); updateTerasBadge();
+  renderCabinet(false); updatePosCount(); updateStats(); renderPosSheet('form');
+  toast('Surat “'+L.name+'” ditarik — kertasnya masuk tong Teras');
+}
+
+/* ================= BUKU TELEPON ================= */
+function renderTelSheet(){
+  const KEYS = [['1',''],['2','ABC'],['3','DEF'],['4','GHI'],['5','JKL'],['6','MNO'],
+                ['7','PQRS'],['8','TUV'],['9','WXYZ'],['*',''],['0','+'],['#','']];
+  telSheet.innerHTML = `
+    <header class="rc-head">
+      <span class="rc-code tel-code">${svg('phone')}</span>
+      <div><h3>Telepon &amp; SMS Darurat</h3><p>Nomor resmi Indonesia — panggilan & pesan nyata, bukan simulasi</p></div>
+      <button class="xbtn" data-close-tel="1" aria-label="Tutup buku telepon">${svg('x')}</button>
+    </header>
+
+    <div class="remind tel-note">${svg('wifi')}<p><b>Mandiri &amp; offline:</b> daftar nomor, papan tombol, dan surat SMS
+    tersimpan di dalam berkas ini — tetap berfungsi tanpa internet. Tombol panggil memakai tautan <b>tel:</b> dan
+    <b>sms:</b> sungguhan sehingga bekerja dari Android terbaru hingga ponsel jadul. Di komputer: pakai tombol salin.
+    Papan tombol juga bisa diketik lewat keyboard (Enter = panggil).</p></div>
+
+    <section class="pad-sec">
+      <div class="pad-head">
+        <h4>Papan tombol · panggil langsung</h4>
+        <button class="sndbtn" data-sndtoggle="1">${svg(sndOn?'vol':'volx')}<span>Suara ${sndOn?'nyala':'mati'}</span></button>
+      </div>
+      <div class="pad">
+        <div class="pad-disp">
+          <span class="pad-txt ${padVal?'':'empty'}" id="padDisp">${padVal || 'Ketik nomor darurat…'}</span>
+          <span class="pad-tools">
+            <button class="ptool" data-cpad="1" title="Salin nomor yang diketik" aria-label="Salin nomor">${svg('copy')}</button>
+            <button class="ptool" data-del="1" title="Hapus satu angka (Backspace)" aria-label="Hapus satu angka">${svg('del')}</button>
+            <button class="ptool" data-clear="1" title="Hapus semua (Delete)" aria-label="Hapus semua">${svg('x')}</button>
+          </span>
+        </div>
+        <div class="pad-match" id="padMatch"></div>
+        <div class="keygrid">
+          ${KEYS.map(([k,s])=>`<button class="key" data-key="${k}" aria-label="Tombol ${k}"><b>${k==='*'?'✳':k}</b><small>${s||''}</small></button>`).join('')}
+        </div>
+        <div class="pad-actions">
+          <button class="callbtn" data-call="1">${svg('phone')}Panggil sekarang</button>
+          <button class="usetel" data-usetel="1" title="Pindahkan nomor ini ke surat SMS">${svg('msg')}Pakai untuk SMS</button>
+        </div>
+        <p class="pad-hint">Nada tombol = DTMF asli seperti telepon kabel</p>
+      </div>
+    </section>
+
+    <section class="sms-sec" id="smsSec">
+      <div class="sms-head"><h4>Surat SMS · kirim pesan darurat</h4></div>
+      <div class="sms-body">
+        <label class="f-lbl" for="smsDest">Nomor tujuan</label>
+        <input class="sms-dest" id="smsDest" type="tel" inputmode="tel" placeholder="+62… atau 119" value="${destVal}" autocomplete="off">
+        <div class="dest-chips">
+          ${FLAT_TEL.map(it=>`<button class="dchip" data-dest="${it.tel}" title="${it.n}">${it.num}</button>`).join('')}
+        </div>
+        <label class="f-lbl" for="smsMsg" style="margin-top:12px">Isi pesan</label>
+        <textarea class="sms-msg" id="smsMsg" placeholder="Tulis pesan daruratmu di sini… (jangan lupa sebutkan lokasi)">${smsVal}</textarea>
+        <div class="tpl-chips">
+          ${TPLS.map((t,i)=>`<button class="tchip" data-tpl="${i}" title="Isi dengan pesan siap pakai">${t.label}</button>`).join('')}
+        </div>
+        <div class="sms-count" id="smsCount"></div>
+        <div class="sms-actions">
+          <button class="sms-send" data-snd="1">${svg('send')}Kirim via SMS</button>
+          <button class="sqbtn" data-cpmsg="1" title="Salin pesan beserta nomor tujuan" style="width:46px;height:46px">${svg('copy')}</button>
+        </div>
+        <p class="sms-note">Tombol <b>Kirim via SMS</b> membuka aplikasi pesan di HP-mu dengan <b>nomor tujuan dan isi pesan sudah terisi</b> —
+        tinggal tekan kirim. Catatan: nomor pendek darurat (110–119) umumnya menerima <b>panggilan</b>, bukan SMS — untuk pesan teks
+        gunakan kontak lembaga (BPOM, PMI, Komnas, KPAI) atau nomor pribadi.</p>
+      </div>
+    </section>
+
+    ${TEL_GROUPS.map(g=>`
+      <div class="tel-group"><h4>${g.title}</h4>
+        <div class="tel-rows">
+          ${g.items.map(it=>`
+          <div class="tel-row">
+            <span class="tel-ico">${svg(it.ic)}</span>
+            <span class="tel-info">
+              <b>${it.n}</b>
+              <small>${it.d}</small>
+              <span class="tel-meta"><b class="tel-num">${it.num}</b>${it.tag?`<span class="tel-tag">${it.tag}</span>`:''}</span>
+            </span>
+            <span class="tel-actions">
+              <a class="tel-call" href="tel:${it.tel}">${svg('phone')}Telepon</a>
+              <button class="sqbtn" data-smsrow="${it.tel}" title="Tulis SMS ke ${it.num}" aria-label="Tulis SMS ke ${it.num}">${svg('msg')}</button>
+              <button class="sqbtn" data-copy="${it.tel}" title="Salin ${it.num}" aria-label="Salin nomor ${it.num}">${svg('copy')}</button>
+              <a class="sqbtn" href="${it.web}" target="_blank" rel="noopener" title="Situs resmi: ${it.wl}" aria-label="Situs resmi ${it.n}">${svg('globe')}</a>
+            </span>
+          </div>`).join('')}
+        </div>
+      </div>`).join('')}
+
+    <footer class="tel-foot">Nomor pendek (<b>110, 113, 115, 117–119, 123, 129</b>) umumnya dapat dihubungi
+    <b>tanpa pulsa</b> dari semua operator. Situs resmi terbuka di tab baru bila ada internet — tanpa internet pun
+    daftar nomor tetap terbaca, bisa diketik di papan tombol, dan bisa disalin.</footer>`;
+  updatePad(); updateSmsCount();
+}
+
+/* ================= PAPAN TOMBOL: logika ================= */
+function updatePad(){
+  const disp=$('padDisp'), match=$('padMatch');
+  if(!disp) return;
+  if(!padVal){
+    disp.textContent='Ketik nomor darurat…'; disp.classList.add('empty');
+    match.classList.remove('hit'); match.textContent='Tombol angka di bawah, atau ketik lewat keyboard';
+  } else {
+    disp.textContent=padVal; disp.classList.remove('empty');
+    const typed=norm(padVal);
+    const hit = FLAT_TEL.find(it => typed && (norm(it.num).startsWith(typed) || norm(it.tel).startsWith(typed)));
+    if(hit){ match.classList.add('hit'); match.innerHTML=`→ ${hit.num} · <b>${hit.n}</b>`; }
+    else if(padVal.length>=3){ match.classList.remove('hit'); match.textContent='Nomor bebas — tekan Panggil sekarang'; }
+    else { match.classList.remove('hit'); match.textContent='Lanjutkan mengetik…'; }
+  }
+}
+function pressKey(k){ if(padVal.length>=20) return; padVal+=k; beep(k); updatePad(); }
+function flashKey(k){
+  const kb=telSheet.querySelector(`.key[data-key="${k}"]`);
+  if(kb){ kb.classList.add('active'); setTimeout(()=>kb.classList.remove('active'),130); }
+}
+function delKey(){ padVal=padVal.slice(0,-1); updatePad(); }
+function clearPad(){ padVal=''; updatePad(); }
+function doCall(){
+  if(!padVal){ toast('Ketik nomornya dulu di papan tombol'); return; }
+  if(isMobile){ window.location.href='tel:'+padVal; toast('Menghubungkan ke '+padVal+'…'); }
+  else { copyText(padVal); toast('Ponsel tidak terdeteksi — nomor tersalin, panggil dari teleponmu'); }
+}
+
+/* ================= SMS: logika ================= */
+function updateSmsCount(){
+  const c=$('smsCount'); if(!c) return;
+  const len=smsVal.length, segs=Math.max(1,Math.ceil(len/160)||1);
+  c.textContent = `${len}/160 karakter · ±${segs} SMS`;
+}
+function setSmsDest(v){
+  destVal=v;
+  const d=$('smsDest'); if(d) d.value=v;
+  const sec=$('smsSec');
+  if(sec){ sec.scrollIntoView({behavior:'smooth', block:'center'});
+           sec.classList.remove('flash'); void sec.offsetWidth; sec.classList.add('flash'); }
+  const m=$('smsMsg'); if(m) m.focus();
+}
+function sendSms(){
+  const dest=(destVal||'').trim(), msg=(smsVal||'').trim();
+  if(!dest){ toast('Isi nomor tujuannya dulu'); return; }
+  if(!msg){ toast('Tulis isi pesannya dulu'); return; }
+  if(isMobile){
+    const sep=/iPhone|iPad|iPod/i.test(navigator.userAgent)?'&':'?';
+    window.location.href=`sms:${dest}${sep}body=${encodeURIComponent(msg)}`;
+    toast('Membuka aplikasi pesan ke '+dest+'…');
+  } else {
+    copyText('Kepada: '+dest+'\n\n'+msg);
+    toast('Ponsel tidak terdeteksi — pesan & nomor tersalin, tempel di aplikasi SMS');
+  }
+}
+function copyMsg(){
+  const dest=(destVal||'').trim(), msg=(smsVal||'').trim();
+  if(!msg){ toast('Belum ada pesan untuk disalin'); return; }
+  copyText((dest?'Kepada: '+dest+'\n\n':'')+msg);
+}
+
+/* ================= INDEKS ================= */
+function ixRow(cid, sub){
+  const c = CONDS[cid], r = ROOM_MAP[c.room];
+  return `<button class="rc-row" data-cond="${cid}">
+    <span class="rc-ico">${svg(c.icon)}</span>
+    <span class="rc-name"><b>${c.name}</b><small>${r.name} · rak ${c.code}${sub ? ' — '+sub : ''}</small></span>
+    <span class="rc-rak">${c.code}</span><span class="rc-chv">›</span>
+  </button>`;
+}
+function renderIndex(query){
+  const q = (query||'').trim().toLowerCase();
+  if(!q){
+    ixBody.innerHTML = ROOMS.map(r=>{
+      const rows = r.wastes
+        ? r.wastes.map(wasteRowCard).join('')
+        : r.conds.map(cid=>ixRow(cid,null)).join('');
+      const title = r.wastes ? `${r.code} · ${r.name} — Pos Sampah` : `${r.code} · ${r.name}`;
+      return `<div class="ix-group"><h4>${title}</h4><div class="rc-rows">${rows}</div></div>`;
+    }).join('');
+  } else {
+    const hits = [];
+    Object.entries(CONDS).forEach(([cid,c])=>{
+      const r = ROOM_MAP[c.room];
+      const hay = (c.name+' '+c.desc+' '+r.name).toLowerCase();
+      if(hay.includes(q)) hits.push(ixRow(cid,null));
+      else{
+        const medHits = c.meds.filter(m=>m.name.toLowerCase().includes(q));
+        if(medHits.length) hits.push(ixRow(cid,'obat: '+medHits.map(m=>m.name).join(', ')));
+      }
+    });
+    Object.entries(WASTES).forEach(([wid,w])=>{
+      const hay = (w.name+' '+w.desc+' '+w.ex.join(' ')).toLowerCase();
+      if(hay.includes(q)) hits.push(wasteRowCard(wid));
+    });
+    ixBody.innerHTML = hits.length
+      ? `<div class="rc-rows">${hits.join('')}</div>`
+      : `<p class="ix-empty">Tidak ada yang cocok di rak mana pun. Coba kata lain — misalnya "corona", "tifoid", "inhaler", atau "baterai".</p>`;
+  }
+  refreshIcons();
+}
+
+/* ================= ALUR BUKA-TUTUP ================= */
+function updateLock(){
+  const on = condOverlay.classList.contains('on') || rcWrap.classList.contains('on') ||
+             telWrap.classList.contains('on') || posWrap.classList.contains('on') ||
+             ixWrap.classList.contains('on');
+  document.body.classList.toggle('lock', on);
+}
+function openRoom(id, hl){
+  closeTel(); closePos(); closeIndex();
+  condOverlay.classList.remove('on');
+  if(activeRoom && activeRoom!==id) cellEl(activeRoom).classList.remove('open');
+  activeRoom = id;
+  cellEl(id).classList.add('open');
+  renderRoomSheet(id, hl);
+  rcWrap.classList.add('on');
+  updateLock();
+}
+function closeRoomCard(){
+  rcWrap.classList.remove('on');
+  if(activeRoom){ cellEl(activeRoom).classList.remove('open'); activeRoom=null; }
+  updateLock();
+}
+function showRoomCard(){
+  condOverlay.classList.remove('on');
+  curWaste = null;
+  renderRoomSheet(activeRoom);
+  rcWrap.classList.add('on');
+  updateLock();
+}
+function openCondition(cid){
+  const c = CONDS[cid];
+  if(!c){ toast('Formula tidak ditemukan di rak'); return; }
+  closeTel(); closePos(); closeIndex();
+  if(activeRoom!==c.room){
+    if(activeRoom) cellEl(activeRoom).classList.remove('open');
+    activeRoom=c.room;
+    cellEl(activeRoom).classList.add('open');
+  } else rcWrap.classList.remove('on');
+  curWaste = null;
+  renderCondSheet(cid);
+  condOverlay.classList.add('on');
+  condSheet.scrollTop=0;
+  updateLock();
+}
+function openWaste(wid){
+  closeTel(); closePos(); closeIndex();
+  condOverlay.classList.remove('on');
+  if(activeRoom!=='luar'){
+    if(activeRoom) cellEl(activeRoom).classList.remove('open');
+    activeRoom='luar';
+    cellEl('luar').classList.add('open');
+  } else rcWrap.classList.remove('on');
+  renderWasteSheet(wid);
+  condOverlay.classList.add('on');
+  condSheet.scrollTop=0;
+  updateLock();
+}
+function closeAll(){ condOverlay.classList.remove('on'); closeRoomCard(); closeTel(); closePos(); closeIndex(); updateLock(); }
+function openIndex(){
+  closeRoomCard(); closeTel(); closePos();
+  condOverlay.classList.remove('on');
+  ixSearch.value=''; renderIndex('');
+  ixWrap.classList.add('on');
+  updateLock();
+  setTimeout(()=>ixSearch.focus(),260);
+}
+function closeIndex(){ ixWrap.classList.remove('on'); updateLock(); }
+function openTel(){
+  closeRoomCard(); closePos(); closeIndex();
+  condOverlay.classList.remove('on');
+  renderTelSheet();
+  telWrap.classList.add('on');
+  phonePole.classList.add('offhook');
+  phonePole.setAttribute('aria-expanded','true');
+  updateLock();
+}
+function closeTel(){
+  telWrap.classList.remove('on');
+  phonePole.classList.remove('offhook');
+  phonePole.setAttribute('aria-expanded','false');
+  updateLock();
+}
+function openPos(){
+  closeRoomCard(); closeTel(); closeIndex();
+  condOverlay.classList.remove('on');
+  renderPosSheet('form');
+  posWrap.classList.add('on');
+  postBox.setAttribute('aria-expanded','true');
+  updateLock();
+}
+function closePos(){
+  posWrap.classList.remove('on');
+  postBox.setAttribute('aria-expanded','false');
+  updateLock();
+}
+
+/* ================= SALIN ================= */
+let toastTimer;
+function toast(msg){
+  toastEl.querySelector('span').textContent=msg;
+  toastEl.classList.add('on');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>toastEl.classList.remove('on'),2400);
+}
+function legacyCopy(txt){
+  const ta=document.createElement('textarea');
+  ta.value=txt; ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); toast('Tersalin — tempel di aplikasi telepon/pesan'); }
+  catch(e){ toast('Salin manual: '+txt); }
+  document.body.removeChild(ta);
+}
+function copyText(txt){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt)
+      .then(()=>toast('Tersalin — tempel di aplikasi telepon/pesan'))
+      .catch(()=>legacyCopy(txt));
+  } else legacyCopy(txt);
+}
+
+/* ================= EVENT ================= */
+document.addEventListener('click', e=>{
+  const t = e.target;
+  const condBtn = t.closest('[data-cond]');
+  if(condBtn){ openCondition(condBtn.dataset.cond); return; }
+  const wasteBtn = t.closest('[data-waste]');
+  if(wasteBtn){ openWaste(wasteBtn.dataset.waste); return; }
+  const roomBtn = t.closest('[data-room]');
+  if(roomBtn){ openRoom(roomBtn.dataset.room); return; }
+  if(t.closest('#phonePole')){ telWrap.classList.contains('on') ? closeTel() : openTel(); return; }
+  if(t.closest('#postBox'))  { posWrap.classList.contains('on') ? closePos() : openPos(); return; }
+
+  const kr = t.closest('[data-kirim]');
+  if(kr){ collectRoom(kr.dataset.kirim); return; }
+  const wc = t.closest('[data-wclean]');
+  if(wc){ cleanTong(wc.dataset.wclean); return; }
+  const wp = t.closest('[data-wpaper]');
+  if(wp){ paperTong(wp.dataset.wpaper); return; }
+  if(t.closest('[data-wall]')) { cleanAllTong(); return; }
+
+  if(t.closest('[data-addmed]'))  { addMedRow(); return; }
+  if(t.closest('[data-delrow]'))  { const rows=$('medRows').querySelectorAll('.medrow');
+                                    if(rows.length>1) t.closest('.medrow').remove(); return; }
+  if(t.closest('[data-possend]')) { submitPos(); return; }
+  if(t.closest('[data-posclear]')){ renderPosSheet('form'); return; }
+  const see = t.closest('[data-seeroom]');
+  if(see){ openRoom(see.dataset.seeroom, lastOk.cid); return; }
+  if(t.closest('[data-again]'))   { renderPosSheet('form'); return; }
+  const op = t.closest('[data-openpos]');
+  if(op){ openCondition('pos-'+op.dataset.openpos); return; }
+  const dp = t.closest('[data-delpost]');
+  if(dp){ deletePos(dp.dataset.delpost); return; }
+
+  const keyBtn = t.closest('[data-key]');
+  if(keyBtn){ pressKey(keyBtn.dataset.key); return; }
+  if(t.closest('[data-call]'))    { doCall(); return; }
+  if(t.closest('[data-del]'))     { delKey(); return; }
+  if(t.closest('[data-clear]'))   { clearPad(); return; }
+  if(t.closest('[data-cpad]'))    { padVal ? copyText(padVal) : toast('Papan tombolnya masih kosong'); return; }
+  if(t.closest('[data-usetel]'))  { padVal ? setSmsDest(padVal) : toast('Ketik nomornya dulu di papan tombol'); return; }
+  const sr = t.closest('[data-smsrow]');
+  if(sr){ setSmsDest(sr.dataset.smsrow); return; }
+  const dc = t.closest('[data-dest]');
+  if(dc){ setSmsDest(dc.dataset.dest); return; }
+  const tp = t.closest('[data-tpl]');
+  if(tp){ smsVal=TPLS[+tp.dataset.tpl].text;
+          const m=$('smsMsg'); if(m) m.value=smsVal;
+          updateSmsCount(); m && m.focus(); return; }
+  if(t.closest('[data-snd]'))     { sendSms(); return; }
+  if(t.closest('[data-cpmsg]'))   { copyMsg(); return; }
+  if(t.closest('[data-sndtoggle]')){
+    sndOn=!sndOn;
+    const b=t.closest('[data-sndtoggle]');
+    b.innerHTML=`${svg(sndOn?'vol':'volx')}<span>Suara ${sndOn?'nyala':'mati'}</span>`;
+    toast('Nada tombol '+(sndOn?'dinyalakan':'dimatikan'));
+    return;
+  }
+  const cp = t.closest('[data-copy]');
+  if(cp){ copyText(cp.dataset.copy); return; }
+
+  if(t.closest('[data-close-pos]')) { closePos(); return; }
+  if(t.closest('[data-close-tel]')) { closeTel(); return; }
+  if(t.closest('[data-back]'))      { showRoomCard(); return; }
+  if(t.closest('[data-closeall]'))  { closeAll(); return; }
+  if(t.closest('[data-close]'))     { closeRoomCard(); return; }
+  if(t.closest('[data-ixclose]'))   { closeIndex(); return; }
+  if(t.closest('[data-index]'))     { openIndex(); return; }
+  if(t.closest('[data-sos]'))       { openCondition('jantung'); return; }
+  if(e.target===condOverlay)        { activeRoom ? showRoomCard() : closeAll(); return; }
+  if(e.target===rcWrap)             { closeRoomCard(); return; }
+  if(e.target===telWrap)            { closeTel(); return; }
+  if(e.target===posWrap)            { closePos(); return; }
+  if(e.target===ixWrap)             { closeIndex(); return; }
+});
+
+document.addEventListener('keydown', e=>{
+  if(telWrap.classList.contains('on') && !e.target.matches('input, textarea')){
+    if(/^[0-9]$/.test(e.key) || e.key==='*' || e.key==='#'){
+      pressKey(e.key); flashKey(e.key); e.preventDefault(); return;
+    }
+    if(e.key==='Backspace'){ delKey(); e.preventDefault(); return; }
+    if(e.key==='Delete')   { clearPad(); e.preventDefault(); return; }
+    if(e.key==='Enter')    { doCall(); e.preventDefault(); return; }
+  }
+  if(e.key!=='Escape') return;
+  if(condOverlay.classList.contains('on')){ activeRoom ? showRoomCard() : closeAll(); }
+  else if(rcWrap.classList.contains('on')){ closeRoomCard(); }
+  else if(telWrap.classList.contains('on')){ closeTel(); }
+  else if(posWrap.classList.contains('on')){ closePos(); }
+  else if(ixWrap.classList.contains('on')){ closeIndex(); }
+});
+
+document.addEventListener('input', e=>{
+  if(e.target.id==='smsMsg'){ smsVal=e.target.value; updateSmsCount(); }
+  if(e.target.id==='smsDest'){ destVal=e.target.value; }
+});
+ixSearch.addEventListener('input', ()=>renderIndex(ixSearch.value));
+
+/* ================= JAM & STATISTIK ================= */
+function tick(){
+  const d=new Date();
+  $('clock').textContent=d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  $('dateNow').textContent=d.toLocaleDateString('id-ID',{weekday:'short', day:'numeric', month:'short', year:'numeric'});
+}
+function updateStats(){
+  $('statCond').textContent=Object.keys(CONDS).length;
+  $('statMeds').textContent=Object.values(CONDS).reduce((n,c)=>n+c.meds.length,0);
+}
+tick(); setInterval(tick,1000);
+
+/* ================= MULAI ================= */
+letters.forEach(registerLetter);
+renderCabinet();
+renderWasteRow();
+updateTerasBadge();
+updatePosCount();
+updateStats();
+refreshIcons();
+</script>
+</body>
+</html>
